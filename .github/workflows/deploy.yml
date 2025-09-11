@@ -38,6 +38,5 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./dist/ # Origem: a pasta do site construído
-          # O destino no servidor pode ser './public_html/' ou '/', dependendo da sua configuração
-          # server-dir: ./public_html/
+          local_path: './dist/*'       # A origem no robô do GitHub
+          remote_path: './public_html'  # O destino no servidor
