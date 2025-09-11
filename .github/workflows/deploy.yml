@@ -1,0 +1,43 @@
+name: Build and Deploy to Hostinger
+
+# Este workflow roda toda vez que você faz um push para a branch 'master'
+on:
+  push:
+    branches:
+      - master  # Mude para 'main' se sua branch principal for 'main'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest # O robô vai usar um ambiente Linux
+
+    steps:
+      # 1. Baixa o seu código do repositório
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2. Configura o ambiente Node.js para poder rodar npm
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18' # Usa a versão 18 do Node.js
+          cache: 'npm'
+
+      # 3. Instala todas as dependências do projeto
+      - name: Install dependencies
+        run: npm install
+
+      # 4. A ETAPA MÁGICA: Constrói o site estático
+      - name: Build project
+        run: npm run build
+        # Este comando cria a pasta 'dist/' com o site pronto
+
+      # 5. Envia o site pronto (apenas a pasta 'dist/') para a Hostinger via FTP
+      - name: Deploy to Hostinger
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./dist/ # Origem: a pasta do site construído
+          # O destino no servidor pode ser './public_html/' ou '/', dependendo da sua configuração
+          # server-dir: ./public_html/
