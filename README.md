@@ -18,6 +18,8 @@
 
 ---
 
+## <p align="center">Link para o acesso ao site em produção: <a href="https://jairribeiro.dev/">https://jairribeiro.dev/</a></p>
+
 <p align="center"> 
     Este repositório contém o código-fonte do meu portfólio pessoal de engenharia de dados.  
     <br>  
