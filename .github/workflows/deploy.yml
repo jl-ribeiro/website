@@ -32,11 +32,12 @@ jobs:
         # Este comando cria a pasta 'dist/' com o site pronto
 
       # 5. Envia o site pronto (apenas a pasta 'dist/') para a Hostinger via FTP
+       # 5. Envia o site pronto para a Hostinger via FTP
       - name: Deploy to Hostinger
-        uses: easingthemes/sftp-deploy@main
+        uses: appleboy/sftp-action@master
         with:
-          server: ${{ secrets.FTP_SERVER }}
+          host: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local_path: './dist/*'
-          remote_path: './public_html'
+          source: "dist/" # A pasta de origem que será enviada
+          target: "public_html" # A pasta de destino no servidor
