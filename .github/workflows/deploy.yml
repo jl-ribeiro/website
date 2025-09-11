@@ -3,33 +3,27 @@ name: Build and Deploy to Hostinger
 on:
   push:
     branches:
-      - master  # Mude para 'main' se sua branch principal for 'main'
+      - master
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-
     steps:
-      # 1. Baixa o seu código do repositório
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # 2. Configura o ambiente Node.js para poder rodar npm
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '18'
           cache: 'npm'
 
-      # 3. Instala todas as dependências do projeto
       - name: Install dependencies
         run: npm install
 
-      # 4. Constrói o site estático
       - name: Build project
         run: npm run build
 
-      # 5. Envia o site pronto para a Hostinger via SFTP
       - name: Deploy to Hostinger
         uses: appleboy/sftp-action@master
         with:
