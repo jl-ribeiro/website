@@ -25,10 +25,5 @@ jobs:
         run: npm run build
 
       - name: Deploy to Hostinger
-        uses: appleboy/sftp-action@master
-        with:
-          host: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          source: "dist/"
-          target: "public_html"
+        run: |
+          lftp -c "open -u ${{ secrets.FTP_USERNAME }},'${{ secrets.FTP_PASSWORD }}' sftp://${{ secrets.FTP_SERVER }}; mirror -Rev dist/ public_html/"
