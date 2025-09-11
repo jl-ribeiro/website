@@ -83,7 +83,7 @@ npm run dev
 
 Após executar o último comando, o site estará disponível em http://localhost:4321 e será atualizado automaticamente sempre que você salvar uma alteração nos arquivos.
 
-🚀 Deploy <a name = "deployment"></a>
+🚀 Automação e Deploy <a name = "deployment"></a>
 
 O processo de publicação do site é 100% automatizado usando GitHub Actions e a integração Git da Hostinger, uma abordagem conhecida como Git-based deployment.
 
@@ -91,19 +91,21 @@ Fluxo:
 
 Um git push é feito na branch master (ou main).
 
-O workflow do GitHub Actions, definido em .github/workflows/deploy.yml, é acionado.
+O workflow do GitHub Actions, definido em [deploy.yml](.github/workflows/deploy.yml), é acionado.
 
 O runner executa os seguintes passos:
 
 Baixa o código-fonte.
 
-Instala as dependências com npm install.
+Instala as dependências com `npm install`.
 
 Gera o site estático otimizado em `dist/` com `npm run build`.
 
-Usa a ação `peaceiris/actions-gh-pages` para fazer um force push do conteúdo de `dist/` para a branch órfã `deploy`.
+Usa a ação `peaceiris/actions-gh-pages` para fazer um force push do conteúdo de `dist/` para a branch `deploy`. Essa branch passa a conter apenas os arquivos estáticos do site, mantendo um histórico limpo de cada build que foi gerado.
 
-A integração Git configurada na Hostinger detecta a atualização na branch deploy e automaticamente "puxa" os arquivos para o diretório `public_html`, publicando o site ao vivo.
+A integração Git configurada na Hostinger detecta a atualização na branch `deploy` e automaticamente "puxa" os arquivos para o diretório `public_html`, publicando o site ao vivo.
+
+Este fluxo grarant que o ambiente de produção do site seja sempre um espelho exato da branch de deploy, tornando o processo robusto, rastreável e à prova de falhas manuais.
 
 ⛏️ Tecnologias Utilizadas <a name = "built_using"></a>
 
