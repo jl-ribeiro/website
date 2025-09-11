@@ -1,4 +1,4 @@
-name: Build and Push to Deploy Branch
+name: Push to Deploy
 
 on:
   push:
@@ -27,10 +27,12 @@ jobs:
       - name: Build project
         run: npm run build
 
+      # Este passo pega o conteúdo da 'dist/', comita e empurra para a branch 'deploy'
+      # mantendo o histórico da branch.
       - name: Deploy to deploy branch
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist  # A pasta com o site pronto
-          publish_branch: deploy # A branch de destino
-          force_orphan: true # Cria uma branch limpa, sem histórico desnecessário
+          publish_dir: ./dist
+          publish_branch: deploy
+          keep_files: false # Garante que arquivos deletados no build sejam removidos da branch
