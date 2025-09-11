@@ -1,6 +1,5 @@
 name: Build and Deploy to Hostinger
 
-# Este workflow roda toda vez que você faz um push para a branch 'master'
 on:
   push:
     branches:
@@ -8,7 +7,7 @@ on:
 
 jobs:
   build-and-deploy:
-    runs-on: ubuntu-latest # O robô vai usar um ambiente Linux
+    runs-on: ubuntu-latest
 
     steps:
       # 1. Baixa o seu código do repositório
@@ -19,20 +18,18 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18' # Usa a versão 18 do Node.js
+          node-version: '18'
           cache: 'npm'
 
       # 3. Instala todas as dependências do projeto
       - name: Install dependencies
         run: npm install
 
-      # 4. A ETAPA MÁGICA: Constrói o site estático
+      # 4. Constrói o site estático
       - name: Build project
         run: npm run build
-        # Este comando cria a pasta 'dist/' com o site pronto
 
-      # 5. Envia o site pronto (apenas a pasta 'dist/') para a Hostinger via FTP
-       # 5. Envia o site pronto para a Hostinger via FTP
+      # 5. Envia o site pronto para a Hostinger via SFTP
       - name: Deploy to Hostinger
         uses: appleboy/sftp-action@master
         with:
