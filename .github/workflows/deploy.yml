@@ -24,11 +24,9 @@ jobs:
       - name: Build project
         run: npm run build
 
+      - name: Install lftp
+        run: sudo apt-get -y install lftp
+
       - name: Deploy to Hostinger
-        uses: SebastiaanKlipp/sftp-deploy@v3.0.0
-        with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          local_path: './dist/*'
-          remote_path: './public_html'
+        run: |
+          lftp -c "open -u ${{ secrets.FTP_USERNAME }},'${{ secrets.FTP_PASSWORD }}' sftp://${{ secrets.FTP_SERVER }}; mirror -Rev dist/ public_html/"
