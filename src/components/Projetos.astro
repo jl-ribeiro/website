@@ -1,0 +1,30 @@
+---
+import CardProjeto from './CardProjeto.astro';
+---
+<section id="projetos" class="max-w-5xl mx-auto py-20">
+    <h3 class="text-3xl font-bold text-white text-center mb-12">Projetos em Destaque</h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+        <CardProjeto 
+            titulo="Dashboards Nativos com Streamlit em Plataforma SaaS"
+            descricao="Implementação de uma solução de analytics embarcada usando Streamlit, alimentada por um Data Warehouse no BigQuery construído com Dataform. Destaque para o pipeline de replicação de dados escalar e parametrizado."
+            tags={["Streamlit", "Google Dataform", "BigQuery", "Scalable Pipelines", "SaaS"]}
+            linkGit="https-://github.com/seu-usuario/seu-repo-novo"
+        />
+
+        <CardProjeto 
+            titulo="Otimização com Dataform: Redução de 98.5% em Custos"
+            descricao="Migração de pipelines legados para Google Dataform, reestruturando o fluxo com Arquitetura Medallion. O resultado foi uma redução drástica nos custos de processamento no BigQuery e uma melhora significativa na performance e manutenibilidade."
+            tags={["Google Dataform", "BigQuery", "Cost Reduction", "Medallion Arch."]}
+            linkGit="https-://github.com/seu-usuario/seu-repo-1"
+        />
+
+        <CardProjeto 
+            titulo="Ingestão de Baixa Latência para Dados de CDC com Datastream"
+            descricao="Arquitetura de ingestão usando Cloud Datastream para replicar dados de MySQL como arquivos Avro no GCS. O acesso via tabelas externas no BigQuery permitiu a criação de dashboards operacionais com dados atualizados em minutos."
+            tags={["Cloud Datastream", "BigQuery External Tables", "CDC", "Avro", "GCS"]}
+            linkGit="https-://github.com/seu-usuario/seu-repo-2"
+        />
+            
+    </div>
+</section>
