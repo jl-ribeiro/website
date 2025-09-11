@@ -34,10 +34,10 @@ jobs:
       # 5. Envia o site pronto (apenas a pasta 'dist/') para a Hostinger via FTP
        # 5. Envia o site pronto para a Hostinger via FTP
       - name: Deploy to Hostinger
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        uses: appleboy/sftp-action@master
         with:
-          server: ${{ secrets.FTP_SERVER }}
+          host: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./dist/
-          server-dir: ./public_html/
+          source: "dist/"
+          target: "public_html"
