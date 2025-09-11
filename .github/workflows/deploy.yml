@@ -33,10 +33,10 @@ jobs:
 
       # 5. Envia o site pronto (apenas a pasta 'dist/') para a Hostinger via FTP
       - name: Deploy to Hostinger
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        uses: easingthemes/sftp-deploy@main
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local_path: './dist/*'       # A origem no robô do GitHub
-          remote_path: './public_html'  # O destino no servidor
+          local_path: './dist/*'
+          remote_path: './public_html'
