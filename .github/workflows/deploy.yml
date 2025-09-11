@@ -1,13 +1,16 @@
-name: Build and Deploy to Hostinger
+name: Build and Push to Deploy Branch
 
 on:
   push:
     branches:
-      - master
+      - master # Ou main, dependendo da sua branch principal
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # Permissão para a Action escrever no repositório
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -24,9 +27,10 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Install lftp
-        run: sudo apt-get -y install lftp
-
-      - name: Deploy to Hostinger
-        run: |
-          lftp -c "open -u ${{ secrets.FTP_USERNAME }},'${{ secrets.FTP_PASSWORD }}' sftp://${{ secrets.FTP_SERVER }}; mirror -Rev dist/ public_html/"
+      - name: Deploy to deploy branch
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist  # A pasta com o site pronto
+          publish_branch: deploy # A branch de destino
+          force_orphan: true # Cria uma branch limpa, sem histórico desnecessário
