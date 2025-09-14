@@ -105,7 +105,7 @@ Usa a ação `peaceiris/actions-gh-pages` para fazer um force push do conteúdo 
 
 A integração Git configurada na Hostinger detecta a atualização na branch `deploy` e automaticamente "puxa" os arquivos para o diretório `public_html`, publicando o site ao vivo.
 
-Este fluxo grarant que o ambiente de produção do site seja sempre um espelho exato da branch de deploy, tornando o processo robusto, rastreável e à prova de falhas manuais.
+Este fluxo garante que o ambiente de produção do site seja sempre um espelho exato da branch de deploy, tornando o processo robusto, rastreável e à prova de falhas manuais.
 
 ⛏️ Tecnologias Utilizadas <a name = "built_using"></a>
 
