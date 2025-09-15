@@ -1,17 +1,32 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { Icon } from 'astro-icon/components';
-import { allProjects } from '../../data/projects.js'; // <-- 1. IMPORTAMOS OS DADOS
+import { allProjects } from '../../data/projects.js';
 
-// 2. A função agora usa a constante importada, sem problemas de escopo.
+// VERSÃO CORRETA E SIMPLIFICADA
 export async function getStaticPaths() {
   return Object.keys(allProjects).map(slug => ({
-    params: { slug },
-    props: { project: allProjects[slug] },
+    params: { slug }
   }));
 }
 
-const { project } = Astro.props;
+// O resto do código já está correto para lidar com os idiomas
+const { slug } = Astro.params;
+const lang = Astro.currentLocale;
+const projectContent = allProjects[slug]?.[lang];
+
+const projectSharedData = {
+  architectureDiagram: allProjects[slug]?.architectureDiagram,
+  tags: allProjects[slug]?.tags,
+  linkGit: allProjects[slug]?.linkGit,
+  techDeepDive: allProjects[slug]?.[lang].techDeepDive
+};
+
+if (!projectContent) {
+  return Astro.redirect('/404');
+}
+
+const project = { ...projectContent, ...projectSharedData };
 ---
 
 
