@@ -1,21 +1,52 @@
 ---
+import LanguageSwitcher from '../components/LanguageSwitcher.astro';
+import pt from '../i18n/pt.js';
+import en from '../i18n/en.js';
+
 interface Props {
 	title: string;
 }
+
 const { title } = Astro.props;
+
+// Pega o idioma atual e a tradução correta
+const t = Astro.currentLocale === 'pt' ? pt : en;
+
+// Cria o prefixo de URL correto para os links de navegação
+// Para inglês (padrão), o prefixo é "/", para português é "/pt/"
+const basePath = Astro.currentLocale === 'en' ? '/' : `/${Astro.currentLocale}/`;
 ---
 
 <!doctype html>
-<html lang="pt-br" class="scroll-smooth">
+<html lang={Astro.currentLocale} class="scroll-smooth">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="description" content="Portfólio de um Engenheiro de Dados" />
+		<meta name="description" content="Astro description" />
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
 	</head>
-	<body class="bg-slate-900 text-slate-300 leading-relaxed">
+	<body class="bg-slate-900 text-slate-300">
+		
+		<header class="fixed top-0 left-0 w-full z-50 bg-slate-900/80 backdrop-blur-sm">
+			<div class="max-w-5xl mx-auto px-4">
+				<div class="flex items-center justify-between h-16">
+					
+					<a href={basePath} class="text-white font-bold text-lg">Jair Ribeiro</a>
+
+					<div class="flex items-center gap-8">
+						<nav class="hidden md:flex gap-6 text-sm">
+							<a href={`${basePath}#projetos`} class="hover:text-emerald-400 transition-colors">{t.nav.projects}</a>
+							<a href={`${basePath}#sobre`} class="hover:text-emerald-400 transition-colors">{t.nav.about}</a>
+							<a href="#contato" class="hover:text-emerald-400 transition-colors">{t.nav.contact}</a>
+						</nav>
+
+						<LanguageSwitcher />
+					</div>
+				</div>
+			</div>
+		</header>
 		<slot />
 	</body>
 </html>

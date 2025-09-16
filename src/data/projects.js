@@ -1,58 +1,81 @@
+// src/data/projects.js
 export const allProjects = {
   'otimizacao-dataform': {
-    title: 'Otimização de Pipelines com Dataform',
-    subtitle: 'Redução de 98.5% em custos de processamento no BigQuery e melhora de performance em módulos SaaS.',
-    summary: 'Este estudo de caso detalha a migração de pipelines de dados legados e de alto custo para uma arquitetura moderna e eficiente utilizando Google Dataform, resultando em uma economia drástica e maior confiabilidade dos dados.',
-    challenge: [
-      'Pipelines legados em uma plataforma SaaS estavam gerando custos elevados de processamento no BigQuery, tornando a operação insustentável a longo prazo.',
-      'A manutenção era complexa e a performance impactava a entrega de dados para módulos críticos do produto.',
-      'Era necessário criar uma solução robusta, escalável e, acima de tudo, custo-efetiva para suportar o crescimento da empresa.'
-    ],
-    myContribution: [
-      'Arquitetei a solução de ponta a ponta na Google Cloud Platform.',
-      'Desenvolvi os modelos de dados no Dataform seguindo a arquitetura Medallion (Bronze, Silver, Gold).',
-      'Liderei o processo de migração, garantindo a qualidade e a consistência dos dados.',
-      'Colaborei com stakeholders para validar os novos modelos e dashboards.'
-    ],
+    // Informações que não mudam com o idioma
     architectureDiagram: '/diagrama-dataform.png',
-    techDeepDive: [
-      {
-        title: 'Modelagem com Google Dataform',
-        description: 'Abaixo, um exemplo anonimizado de um modelo da camada "Silver", onde dados brutos são limpos, tipados e preparados para agregação. Usamos arquivos SQLX para combinar a declaração da tabela com a lógica de transformação.',
-        codeLanguage: 'sql',
-        code: `config { type: "table" }\n\nSELECT\n    CAST(user_id AS STRING) AS id_usuario,\n    CAST(event_timestamp AS TIMESTAMP) AS data_evento,\n    JSON_VALUE(event_data, '$.plan_type') AS tipo_plano,\n    SAFE_CAST(JSON_VALUE(event_data, '$.mrr_value') AS NUMERIC) AS valor_mrr\nFROM\n    source.bronze_events\nWHERE\n    event_name = 'user_subscribed'`
-      },
-      {
-        title: 'Dashboard de Análise de Custo',
-        description: 'Para validar o sucesso do projeto, criei um dashboard no Looker Studio que compara os custos de processamento antes e depois da migração. Abaixo está uma versão pública e anonimizada do dashboard, usando dados de exemplo.',
-        embedUrl: 'https://lookerstudio.google.com/embed/reporting/0B5FF6n02-312Y1llWmN2U2Q4S3M/page/6zXD'
-      }
-    ],
-    results: [
-      'Redução de 98.5% nos custos mensais de processamento no BigQuery, de R$ X mil para R$ Y.',
-      'Melhora de 4x na performance de execução dos pipelines.',
-      'Redução do tempo de entrega de dados para stakeholders de 8 horas para menos de 1 hora.',
-      'Criação de uma base de dados escalável e de fácil manutenção para o futuro.'
-    ]
+    tags: ["Google Dataform", "BigQuery", "Cost Reduction", "Medallion Arch."],
+    linkGit: "https-://github.com/seu-usuario/seu-repo-1",
+
+    // Textos em Português
+    pt: {
+      title: 'Otimização com Dataform: Redução de 98.5% em Custos',
+      description: 'Migração de pipelines legados para Google Dataform, reestruturando o fluxo com Arquitetura Medallion...',
+      subtitle: 'Redução de 98.5% em custos de processamento no BigQuery e melhora de performance em módulos SaaS.',
+      summary: 'Este estudo de caso detalha a migração de pipelines de dados legados e de alto custo para uma arquitetura moderna...',
+      challenge: ['Pipelines legados gerando custos elevados...', 'A manutenção era complexa...', 'Era necessário criar uma solução robusta...'],
+      myContribution: ['Arquitetei a solução de ponta a ponta...', 'Desenvolvi os modelos de dados no Dataform...', 'Liderei o processo de migração...', 'Colaborei com stakeholders...'],
+      techDeepDive: [
+        { title: 'Modelagem com Google Dataform', description: 'Abaixo, um exemplo anonimizado de um modelo da camada "Silver"...', codeLanguage: 'sql', code: `...` },
+        { title: 'Dashboard de Análise de Custo', description: 'Para validar o sucesso do projeto, criei um dashboard no Looker Studio...', embedUrl: '...' }
+      ],
+      results: ['Redução de 98.5% nos custos mensais...', 'Melhora de 4x na performance...', 'Redução do tempo de entrega de dados...', 'Criação de uma base de dados escalável...']
+    },
+    // Textos em Inglês
+    en: {
+      title: 'Dataform Optimization: 98.5% Cost Reduction',
+      description: 'Migration of legacy pipelines to Google Dataform, restructuring the flow with Medallion Architecture...',
+      subtitle: '98.5% reduction in BigQuery processing costs and performance improvement in critical SaaS modules.',
+      summary: 'This case study details the migration of legacy and high-cost data pipelines to a modern, efficient architecture...',
+      challenge: ['Legacy pipelines generating high costs...', 'Maintenance was complex...', 'It was necessary to create a robust solution...'],
+      myContribution: ['I architected the end-to-end solution...', 'I developed the data models in Dataform...', 'I led the migration process...', 'I collaborated with stakeholders...'],
+      techDeepDive: [
+        { title: 'Modeling with Google Dataform', description: 'Below is an anonymized example of a "Silver" layer model...', codeLanguage: 'sql', code: `...` },
+        { title: 'Cost Analysis Dashboard', description: 'To validate the project\'s success, I created a Looker Studio dashboard...', embedUrl: '...' }
+      ],
+      results: ['98.5% reduction in monthly processing costs...', '4x improvement in pipeline execution performance...', 'Reduction of data delivery time...', 'Creation of a scalable and low-maintenance database...']
+    }
   },
+  // ADICIONE SEUS OUTROS PROJETOS AQUI SEGUINDO A MESMA ESTRUTURA
   'projeto-streamlit': {
-    title: 'Projeto Streamlit (Exemplo)',
-    subtitle: 'Subtítulo do projeto Streamlit.',
-    summary: 'Resumo do projeto Streamlit...',
-    challenge: ['Desafio 1 do Streamlit.'],
-    myContribution: ['Contribuição 1 do Streamlit.'],
     architectureDiagram: '/placeholder.png',
-    techDeepDive: [],
-    results: ['Resultado 1 do Streamlit.']
+    tags: ["Streamlit", "Google Dataform", "BigQuery", "SaaS"],
+    linkGit: "https://github.com/seu-usuario/seu-repo-novo",
+    pt: {
+      title: 'Dashboards Nativos com Streamlit',
+      description: 'Implementação de uma solução de analytics embarcada usando Streamlit...',
+      // PROPRIEDADES QUE FALTAVAM (adicione mesmo que vazias)
+      subtitle: 'Subtítulo do projeto em PT',
+      summary: 'Resumo em PT...',
+      challenge: ['Desafio 1...', 'Desafio 2...'],
+      myContribution: ['Contribuição 1...', 'Contribuição 2...'],
+      techDeepDive: [], // Pode ser uma lista vazia por enquanto
+      results: []       // Pode ser uma lista vazia por enquanto
+    },
+    en: {
+      title: 'Native Dashboards with Streamlit',
+      description: 'Implementation of an embedded analytics solution using Streamlit...',
+      // PROPERTIES THAT WERE MISSING (add even if empty)
+      subtitle: 'Project subtitle in EN',
+      summary: 'Summary in EN...',
+      challenge: ['Challenge 1...', 'Challenge 2...'],
+      myContribution: ['Contribution 1...', 'Contribution 2...'],
+      techDeepDive: [], // Can be an empty list for now
+      results: []       // Can be an empty list for now
+    }
   },
   'ingestao-cdc': {
-    title: 'Ingestão CDC (Exemplo)',
-    subtitle: 'Subtítulo do projeto de ingestão CDC.',
-    summary: 'Resumo do projeto de ingestão CDC...',
-    challenge: ['Desafio 1 de ingestão CDC.'],
-    myContribution: ['Contribuição 1 de ingestão CDC.'],
     architectureDiagram: '/placeholder.png',
-    techDeepDive: [],
-    results: ['Resultado 1 de ingestão CDC.']
+    tags: ["Cloud Datastream", "BigQuery", "CDC", "Avro"],
+    linkGit: "https-://github.com/seu-usuario/seu-repo-2",
+    pt: {
+      title: 'Ingestão de Baixa Latência com Datastream',
+      description: 'Arquitetura de ingestão usando Cloud Datastream para replicar dados de MySQL...',
+      // ... preencha o resto em português
+    },
+    en: {
+      title: 'Low-Latency Ingestion with Datastream',
+      description: 'Ingestion architecture using Cloud Datastream to replicate MySQL data...',
+      // ... preencha o resto em inglês
+    }
   }
 };
