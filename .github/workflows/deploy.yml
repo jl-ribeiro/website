@@ -3,13 +3,14 @@ name: Push to Deploy
 on:
   push:
     branches:
-      - master # Ou main, dependendo da sua branch principal
+      - prod
+      - develop
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     permissions:
-      contents: write # Permissão para a Action escrever no repositório
+      contents: write
 
     steps:
       - name: Checkout code
@@ -27,12 +28,11 @@ jobs:
       - name: Build project
         run: npm run build
 
-      # Este passo pega o conteúdo da 'dist/', comita e empurra para a branch 'deploy'
-      # mantendo o histórico da branch.
-      - name: Deploy to deploy branch
+      - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
           publish_branch: deploy
-          keep_files: false # Garante que arquivos deletados no build sejam removidos da branch
+          keep_files: false
+          commit_message: "Deploy from ${{ github.ref_name }} - commit ${{ github.sha }}"
