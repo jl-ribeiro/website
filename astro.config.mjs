@@ -14,15 +14,15 @@ export default defineConfig({
       include: {
         mdi: ['*']
       }
-    })
+    }),
   ],
   
   // 2. CONFIGURAÇÃO DE i18n LIMPA
   i18n: {
     defaultLocale: 'en',
-    locales: ['en', 'pt'], // É uma boa prática listar o idioma padrão aqui também
+    locales: ['en', 'pt'],
     routing: {
-      prefixDefaultLocale: false
+      prefixDefaultLocale: true // <-- ALTERADO AQUI
     }
   }
 });

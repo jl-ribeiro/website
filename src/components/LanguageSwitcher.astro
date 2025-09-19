@@ -3,17 +3,12 @@
 
 const { pathname } = Astro.url;
 
-// 1. Descobrimos o "caminho base", removendo qualquer prefixo de idioma.
-const basePath = pathname.startsWith('/pt/') ? pathname.replace('/pt', '')
-               : pathname.startsWith('/en/') ? pathname.replace('/en', '')
-               : pathname;
+// Lógica simplificada: remove /en ou /pt do início para pegar o caminho base
+const basePath = pathname.replace(/^\/(en|pt)/, '');
 
-// 2. Construímos os links completos e corretos para cada idioma.
-// Adicionamos uma verificação para evitar a barra dupla "//" na página inicial.
-const enPath = basePath === '/' ? '/en/' : `/en${basePath}`;
-const ptPath = basePath === '/' ? '/pt/' : `/pt${basePath}`;
+const enPath = `/en${basePath}`;
+const ptPath = `/pt${basePath}`;
 
-// 3. Identificamos o idioma atual de forma mais segura.
 const currentLocale = Astro.currentLocale;
 ---
 
