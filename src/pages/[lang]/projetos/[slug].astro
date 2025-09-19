@@ -1,35 +1,37 @@
 ---
-import Layout from '../../layouts/Layout.astro';
+import Layout from '../../../layouts/Layout.astro'; // <-- Caminho corrigido (subiu mais um nível)
 import { Icon } from 'astro-icon/components';
-import { allProjects } from '../../data/projects.js';
+import { allProjects } from '../../../data/projects.js'; // <-- Caminho corrigido
 
-// VERSÃO CORRETA E SIMPLIFICADA
+// Agora o Astro entende que 'lang' e 'slug' vêm da URL
 export async function getStaticPaths() {
-  return Object.keys(allProjects).map(slug => ({
-    params: { slug }
-  }));
+  const paths = [];
+  for (const slug of Object.keys(allProjects)) {
+    for (const lang of ['en', 'pt']) {
+      paths.push({
+        params: { lang, slug },
+        props: { project: allProjects[slug] }
+      });
+    }
+  }
+  return paths;
 }
 
-// O resto do código já está correto para lidar com os idiomas
-const { slug } = Astro.params;
-const lang = Astro.currentLocale;
-const projectContent = allProjects[slug]?.[lang];
+// A lógica para pegar os dados agora é mais simples e direta
+const { lang, slug } = Astro.params;
+const { project: projectDataByLang } = Astro.props;
 
-const projectSharedData = {
-  architectureDiagram: allProjects[slug]?.architectureDiagram,
-  tags: allProjects[slug]?.tags,
-  linkGit: allProjects[slug]?.linkGit,
-  techDeepDive: allProjects[slug]?.[lang].techDeepDive
-};
-
-if (!projectContent) {
+if (!projectDataByLang || !projectDataByLang[lang]) {
   return Astro.redirect('/404');
 }
 
-const project = { ...projectContent, ...projectSharedData };
+const project = {
+  ...projectDataByLang[lang],
+  architectureDiagram: projectDataByLang.architectureDiagram,
+  tags: projectDataByLang.tags,
+  linkGit: projectDataByLang.linkGit
+};
 ---
-
-
 
 <Layout title={project.title}>
   <main class="pt-24 pb-20">
@@ -41,19 +43,19 @@ const project = { ...projectContent, ...projectSharedData };
       </header>
       
       <div class="prose prose-invert prose-lg max-w-none mx-auto">
-        <blockquote class="border-l-4 border-emerald-500 bg-slate-800/50 p-4 rounded-r-lg">
-          <p>{project.summary}</p>
+        <blockquote class="border-l-4 border-emerald-500 bg-slate-800/50 p-4 rounded-r-lg not-prose">
+          <p class="text-slate-300">{project.summary}</p>
         </blockquote>
 
         <section class="mt-12">
-          <h2 class="text-3xl font-bold text-white mb-4">O Desafio</h2>
-          {project.challenge.map((paragraph) => <p>{paragraph}</p>)}
+          <h2>O Desafio</h2>
+          {(project.challenge || []).map((paragraph) => <p>{paragraph}</p>)}
         </section>
 
         <section class="mt-12">
-          <h2 class="text-3xl font-bold text-white mb-4">Minha Contribuição</h2>
+          <h2>Minha Contribuição</h2>
           <ul class="list-none p-0">
-            {project.myContribution.map((item) => (
+            {(project.myContribution || []).map((item) => (
               <li class="flex items-start mb-2">
                 <Icon name="mdi:check-decagram" class="text-emerald-400 w-6 h-6 mr-3 flex-shrink-0 mt-1" />
                 <span>{item}</span>
@@ -63,7 +65,7 @@ const project = { ...projectContent, ...projectSharedData };
         </section>
 
         <section class="mt-12">
-          <h2 class="text-3xl font-bold text-white mb-4">Arquitetura da Solução</h2>
+          <h2>Arquitetura da Solução</h2>
           <figure>
             <img src={project.architectureDiagram} alt={`Diagrama de arquitetura do projeto ${project.title}`} class="rounded-lg shadow-lg" />
             <figcaption class="text-center text-sm text-slate-400 mt-2">Diagrama de alto nível do fluxo de dados implementado.</figcaption>
@@ -71,10 +73,10 @@ const project = { ...projectContent, ...projectSharedData };
         </section>
 
         <section class="mt-12">
-          <h2 class="text-3xl font-bold text-white mb-4">Deep Dive Técnico</h2>
-          {project.techDeepDive.map((item) => (
+          <h2>Deep Dive Técnico</h2>
+          {(project.techDeepDive || []).map((item) => (
             <div class="mb-8">
-              <h3 class="text-2xl font-semibold text-emerald-400 mb-2">{item.title}</h3>
+              <h3 class="text-emerald-400 not-prose text-2xl font-semibold">{item.title}</h3>
               <p>{item.description}</p>
               {item.code && (
                 <div class="bg-slate-900 rounded-lg overflow-hidden my-4">
@@ -82,7 +84,7 @@ const project = { ...projectContent, ...projectSharedData };
                 </div>
               )}
               {item.embedUrl && (
-                <div class="aspect-w-16 aspect-h-9 my-4">
+                <div class="aspect-w-16 aspect-h-9 my-4 rounded-lg overflow-hidden">
                   <iframe src={item.embedUrl} frameborder="0" style="border:0; width: 100%; height: 500px;" allowfullscreen></iframe>
                 </div>
               )}
@@ -91,9 +93,9 @@ const project = { ...projectContent, ...projectSharedData };
         </section>
 
         <section class="mt-12">
-          <h2 class="text-3xl font-bold text-white mb-4">Resultados e Impacto</h2>
+          <h2>Resultados e Impacto</h2>
           <ul class="list-none p-0">
-            {project.results.map((item) => (
+            {(project.results || []).map((item) => (
               <li class="flex items-start mb-2">
                 <Icon name="mdi:trophy-variant" class="text-amber-400 w-6 h-6 mr-3 flex-shrink-0 mt-1" />
                 <span>{item}</span>
@@ -104,7 +106,7 @@ const project = { ...projectContent, ...projectSharedData };
       </div>
 
       <div class="text-center mt-16">
-        <a href="/#projetos" class="text-emerald-400 hover:text-emerald-300 font-semibold">
+        <a href={`/${lang}/#projetos`} class="text-emerald-400 hover:text-emerald-300 font-semibold">
           &larr; Voltar para todos os projetos
         </a>
       </div>
