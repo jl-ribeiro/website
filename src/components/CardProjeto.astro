@@ -1,14 +1,15 @@
 ---
-// src/components/CardProjeto.astro
-
 interface Props {
-    slug: string; // <-- ADICIONAMOS O SLUG AQUI
+    slug: string;
     titulo: string;
     descricao: string;
     tags: string[];
     linkGit: string;
 }
 const { slug, titulo, descricao, tags, linkGit } = Astro.props;
+
+// Pega o idioma atual para construir o link correto
+const lang = Astro.currentLocale;
 ---
 <div class="bg-slate-800 rounded-lg p-6 flex flex-col border border-slate-700 hover:border-emerald-500 transition-colors">
     <h4 class="text-xl font-bold text-white mb-2">{titulo}</h4>
@@ -21,7 +22,7 @@ const { slug, titulo, descricao, tags, linkGit } = Astro.props;
     </div>
 
     <div class="mt-auto flex items-center gap-6">
-        <a href={`/projetos/${slug}`} class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-2 px-4 rounded-lg transition-colors text-sm">
+        <a href={`/${lang}/projetos/${slug}`} class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-2 px-4 rounded-lg transition-colors text-sm">
             Ver Estudo de Caso
         </a>
         <a href={linkGit} target="_blank" class="text-slate-300 hover:text-emerald-400 transition-colors text-sm">Ver no GitHub</a>

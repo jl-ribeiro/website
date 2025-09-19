@@ -1,0 +1,41 @@
+---
+// src/components/LanguageSwitcher.astro
+
+const { pathname } = Astro.url;
+
+// Lógica simplificada: remove /en ou /pt do início para pegar o caminho base
+const basePath = pathname.replace(/^\/(en|pt)/, '');
+
+const enPath = `/en${basePath}`;
+const ptPath = `/pt${basePath}`;
+
+const currentLocale = Astro.currentLocale;
+---
+
+<div class="flex items-center gap-3 text-sm font-medium">
+  <a 
+    href={ptPath} 
+    class:list={[
+      "transition",
+      currentLocale === 'pt' 
+        ? 'text-emerald-400 font-bold' 
+        : 'text-slate-300 hover:text-emerald-400'
+    ]}
+  >
+    PT
+  </a>
+  
+  <div class="w-px h-4 bg-slate-600"></div>
+  
+  <a 
+    href={enPath} 
+    class:list={[
+      "transition",
+      currentLocale === 'en' 
+        ? 'text-emerald-400 font-bold' 
+        : 'text-slate-300 hover:text-emerald-400'
+    ]}
+  >
+    EN
+  </a>
+</div>

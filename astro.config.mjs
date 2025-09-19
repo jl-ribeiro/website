@@ -4,12 +4,25 @@ import icon from "astro-icon";
 
 // https://astro.build/config
 export default defineConfig({
+  // 1. ADICIONE A URL FINAL DO SEU SITE AQUI
+  // Isso força o Astro a criar caminhos absolutos para CSS, JS, etc.
+  site: 'https://jairribeiro.dev', // SUBSTITUA PELO SEU DOMÍNIO REAL
+
   integrations: [
     tailwind(), 
     icon({
       include: {
-        mdi: ['*'] // Permite o uso de QUALQUER ícone do set 'mdi'
+        mdi: ['*']
       }
-    })
-  ]
+    }),
+  ],
+  
+  // 2. CONFIGURAÇÃO DE i18n LIMPA
+  i18n: {
+    defaultLocale: 'en',
+    locales: ['en', 'pt'],
+    routing: {
+      prefixDefaultLocale: true // <-- ALTERADO AQUI
+    }
+  }
 });
