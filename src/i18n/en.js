@@ -19,6 +19,9 @@ export default {
   projetos: {
     title: "Featured Projects"
   },
+  stack: {
+    title: "Tech Stack",
+  },
   contato: {
     title: "Let's Talk?",
     paragraph: "I'm always open to new opportunities and challenges. If you have a project in mind or would like to know more about my work, do not hesitate to get in touch.",

@@ -19,6 +19,9 @@ export default {
    projetos: {
     title: "Projetos em Destaque"
   },
+  stack: {
+    title: "Minha stack de conhecimento",
+  },
   contato: {
     title: "Vamos Conversar?",
     paragraph: "Estou sempre aberto a novas oportunidades e desafios. Se você tem um projeto em mente ou gostaria de saber mais sobre meu trabalho, não hesite em entrar em contato.",
