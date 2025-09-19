@@ -7,16 +7,16 @@ export default {
   },
   hero: {
     title: "Jair Ribeiro",
-    subtitle: "Engenheiro de Dados especialista em construir e otimizar ecossistemas de dados de baixo custo na Google Cloud Platform.",
+    subtitle: "Engenheiro de Dados especialista em resolver problemas complexos, transformando dados brutos em ecossistemas eficientes, escaláveis e de baixo custo na Google Cloud Platform.",
     contactBtn: "Entre em Contato",
     resumeBtn: "Baixar Currículo",
   },
   sobre: {
     title: "Sobre Mim",
-    paragraph1: "Sou um engenheiro de dados apaixonado por transformar dados brutos em inteligência de negócio. Minha especialidade é projetar e construir ecossistemas de dados eficientes e de baixo custo na Google Cloud Platform, garantindo que cada solução técnica gere valor real e estratégico para a empresa.",
-    paragraph2: "Minha jornada profissional não foi linear, o que me proporcionou uma visão de negócio única. A experiência anterior em áreas de operações e comercial me ensinou a importância da comunicação clara com stakeholders e a entender os problemas de negócio a fundo, habilidades que hoje aplico para garantir o sucesso dos projetos de dados.",
+    paragraph1: "Minha paixão é atuar como um engenheiro de dados 'full stack', resolvendo problemas de ponta a ponta, desde a ingestão e modelagem até a criação de produtos de dados. Minha jornada profissional não-linear, com passagens por operações de alta complexidade como a aviação, me deu uma habilidade única de enxergar além do código.",
+    paragraph2: "Essa bagagem me permite entender a fundo a dor da operação, dialogar com stakeholders e adaptar soluções entre diferentes indústrias — como transformar um modelo de logística aeroportuária em uma solução para o varejo B2C. Eu construo soluções de dados que não são apenas tecnicamente robustas, mas que resolvem problemas reais de negócio.",
   },
-   projetos: {
+  projetos: {
     title: "Projetos em Destaque"
   },
   stack: {
@@ -24,7 +24,7 @@ export default {
   },
   contato: {
     title: "Vamos Conversar?",
-    paragraph: "Estou sempre aberto a novas oportunidades e desafios. Se você tem um projeto em mente ou gostaria de saber mais sobre meu trabalho, não hesite em entrar em contato.",
+    paragraph: "Estou sempre buscando novos desafios em engenharia de dados, seja para otimizar arquiteturas existentes ou construir novas soluções do zero, na GCP ou em outras clouds. Se você tem um projeto em mente, vamos conversar.",
     email: "jlribeiro at id.uff.br"
-  },
+  }
 };
