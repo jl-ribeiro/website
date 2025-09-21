@@ -1,9 +1,10 @@
 ---
-import Layout from '../../../layouts/Layout.astro'; // <-- Caminho corrigido (subiu mais um nível)
+import Layout from '../../../layouts/Layout.astro';
 import { Icon } from 'astro-icon/components';
-import { allProjects } from '../../../data/projects.js'; // <-- Caminho corrigido
+import { allProjects } from '../../../data/projects.js';
+import pt from '../../../i18n/pt.js';
+import en from '../../../i18n/en.js';
 
-// Agora o Astro entende que 'lang' e 'slug' vêm da URL
 export async function getStaticPaths() {
   const paths = [];
   for (const slug of Object.keys(allProjects)) {
@@ -17,9 +18,9 @@ export async function getStaticPaths() {
   return paths;
 }
 
-// A lógica para pegar os dados agora é mais simples e direta
-const { lang, slug } = Astro.params;
+const { lang } = Astro.params;
 const { project: projectDataByLang } = Astro.props;
+const t = lang === 'pt' ? pt : en;
 
 if (!projectDataByLang || !projectDataByLang[lang]) {
   return Astro.redirect('/404');
@@ -28,8 +29,7 @@ if (!projectDataByLang || !projectDataByLang[lang]) {
 const project = {
   ...projectDataByLang[lang],
   architectureDiagram: projectDataByLang.architectureDiagram,
-  tags: projectDataByLang.tags,
-  linkGit: projectDataByLang.linkGit
+  technologies: projectDataByLang.technologies,
 };
 ---
 
@@ -43,18 +43,21 @@ const project = {
       </header>
       
       <div class="prose prose-invert prose-lg max-w-none mx-auto">
-        <blockquote class="border-l-4 border-emerald-500 bg-slate-800/50 p-4 rounded-r-lg not-prose">
-          <p class="text-slate-300">{project.summary}</p>
-        </blockquote>
+        <section class="mt-12">
+          <h2>{t.projectPage.context}</h2>
+          <blockquote class="border-l-4 border-emerald-500 bg-slate-800/50 p-4 rounded-r-lg not-prose">
+            <p class="text-slate-300">{project.summary}</p>
+          </blockquote>
+        </section>
 
         <section class="mt-12">
-          <h2>O Desafio</h2>
+          <h2>{t.projectPage.problem}</h2>
           {(project.challenge || []).map((paragraph) => <p>{paragraph}</p>)}
         </section>
 
         <section class="mt-12">
-          <h2>Minha Contribuição</h2>
-          <ul class="list-none p-0">
+          <h2>{t.projectPage.solution}</h2>
+          <ul class="list-none p-0 mb-8">
             {(project.myContribution || []).map((item) => (
               <li class="flex items-start mb-2">
                 <Icon name="mdi:check-decagram" class="text-emerald-400 w-6 h-6 mr-3 flex-shrink-0 mt-1" />
@@ -62,21 +65,38 @@ const project = {
               </li>
             ))}
           </ul>
-        </section>
-
-        <section class="mt-12">
-          <h2>Arquitetura da Solução</h2>
           <figure>
             <img src={project.architectureDiagram} alt={`Diagrama de arquitetura do projeto ${project.title}`} class="rounded-lg shadow-lg" />
-            <figcaption class="text-center text-sm text-slate-400 mt-2">Diagrama de alto nível do fluxo de dados implementado.</figcaption>
+            <figcaption class="text-center text-sm text-slate-400 mt-2">Diagrama de alto nível da arquitetura da solução.</figcaption>
           </figure>
         </section>
 
         <section class="mt-12">
-          <h2>Deep Dive Técnico</h2>
+          <h2>{t.projectPage.results}</h2>
+          <ul class="list-none p-0">
+            {(project.results || []).map((item) => (
+              <li class="flex items-start mb-2">
+                <Icon name="mdi:trophy-variant" class="text-amber-400 w-6 h-6 mr-3 flex-shrink-0 mt-1" />
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section class="mt-12">
+          <h2>{t.projectPage.technologies}</h2>
+          <div class="flex flex-wrap gap-3">
+            {(project.technologies || []).map(tech => (
+              <span class="bg-slate-700 text-emerald-300 font-medium px-4 py-2 rounded-lg">{tech}</span>
+            ))}
+          </div>
+        </section>
+
+        <section class="mt-12">
+          <h2>{t.projectPage.deepDive}</h2>
           {(project.techDeepDive || []).map((item) => (
-            <div class="mb-8">
-              <h3 class="text-emerald-400 not-prose text-2xl font-semibold">{item.title}</h3>
+            <div class="mb-8 border-l-2 border-slate-700 pl-4">
+              <h3 class="text-emerald-400 not-prose text-xl font-semibold">{item.title}</h3>
               <p>{item.description}</p>
               {item.code && (
                 <div class="bg-slate-900 rounded-lg overflow-hidden my-4">
@@ -90,18 +110,6 @@ const project = {
               )}
             </div>
           ))}
-        </section>
-
-        <section class="mt-12">
-          <h2>Resultados e Impacto</h2>
-          <ul class="list-none p-0">
-            {(project.results || []).map((item) => (
-              <li class="flex items-start mb-2">
-                <Icon name="mdi:trophy-variant" class="text-amber-400 w-6 h-6 mr-3 flex-shrink-0 mt-1" />
-                <span>{item}</span>
-              </li>
-            ))}
-          </ul>
         </section>
       </div>
 
