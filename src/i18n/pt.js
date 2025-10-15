@@ -27,5 +27,13 @@ export default {
     title: "Vamos Conversar?",
     paragraph: "Gosto de desafios que envolvem engenharia de dados de verdade — seja otimizar arquiteturas existentes ou construir soluções do zero na GCP ou em outras clouds. Se você tem um projeto ou ideia em mente, será um prazer trocar experiências.",
     email: "jlribeiro at id.uff.br"
+  },
+  projectPage: {
+    context: "Context",
+    problem: "The Problem",
+    solution: "The Solution & My Contribution",
+    results: "Results & Impact",
+    technologies: "Technologies Used",
+    deepDive: "Technical Deep Dive (Illustrative Code)"
   }
 };
