@@ -29,32 +29,61 @@ export const allProjects = {
     }
   },
   'ingestao-cdc': {
-    architectureDiagram: '/diagrama-datastream.png', // Lembre de criar e adicionar esta imagem
-    tags: ["Cloud Datastream", "BigQuery", "CDC", "Near Real-Time", "Cost Reduction"],
-    linkGit: "#",
-    pt: {
-      title: 'Ingestão de Baixa Latência com Datastream',
-      subtitle: 'Criação de um pipeline de replicação de dados near real-time com 98% de redução de custos.',
-      summary: 'Desenvolvimento de uma arquitetura de ingestão de dados via Change Data Capture (CDC) para replicar um banco de dados transacional em um ambiente analítico de forma confiável, rápida e barata.',
-      challenge: ['A solução de replicação anterior não era confiável, cara e lenta, tornando a análise de dados operacionais inviável.', 'A empresa precisava de acesso aos dados mais recentes (baixa latência) para tomada de decisão, sem comprometer o orçamento.'],
-      myContribution: ['Arquitetei uma solução de baixo custo usando Datastream, Cloud Storage e BigQuery.', 'Implementei a captura dos binlogs do banco de dados (CDC), com exportação no formato Avro para o GCS.', 'Criei uma arquitetura em camadas (Streaming Views e Raw Tables) no BigQuery para fornecer acesso aos dados tanto em tempo real quanto em lotes materializados e otimizados.'],
-      techDeepDive: [
-        { title: 'Arquitetura de Tabelas Externas e Views', description: 'A grande sacada de baixo custo foi usar o BigQuery para ler os arquivos Avro diretamente do Cloud Storage via Tabelas Externas. Uma View de streaming foi criada sobre esses arquivos para consultar apenas os registros mais recentes (delta), e uma tabela materializada, particionada e clusterizada, era atualizada periodicamente em lotes para consultas analíticas pesadas.' }
-      ],
-      results: ['Redução de 98% nos custos de replicação de dados.', 'Disponibilização de dados para análise em minutos (near real-time), em vez de horas.', 'Criação de uma arquitetura de ingestão modular e facilmente replicável para outros clientes SaaS.'],
-    },
-    en: {
-      title: 'Low-Latency Ingestion with Datastream',
-      subtitle: 'Creation of a near real-time data replication pipeline with a 98% cost reduction.',
-      summary: 'Development of a Change Data Capture (CDC) data ingestion architecture to replicate a transactional database into an analytical environment reliably, quickly, and affordably.',
-      challenge: ['The previous replication solution was unreliable, expensive, and slow, making operational data analysis unfeasible.', 'The company needed access to the latest data (low latency) for decision-making without compromising the budget.'],
-      myContribution: ['I architected a low-cost solution using Datastream, Cloud Storage, and BigQuery.', 'I implemented binlog capture from the database (CDC), exporting in Avro format to GCS.', 'I created a layered architecture (Streaming Views and Raw Tables) in BigQuery to provide access to data in both real-time and in optimized, materialized batches.'],
-      techDeepDive: [
-        { title: 'External Tables and Views Architecture', description: 'The key low-cost insight was using BigQuery to read Avro files directly from Cloud Storage via External Tables. A streaming View was created over these files to query only the latest records (delta), and a materialized, partitioned, and clustered table was updated periodically in batches for heavy analytical queries.' }
-      ],
-      results: ['98% reduction in data replication costs.', 'Data made available for analysis in minutes (near real-time) instead of hours.', 'Creation of a modular and easily replicable ingestion architecture for other SaaS clients.'],
-    }
+  architectureDiagram: '/diagrama-datastream.png',
+  tags: ["Google Cloud", "Near Real-Time", "Cost Reduction", "CDC", "Airflow", "BigQuery"],
+  pt: {
+    title: 'Ingestão de Baixa Latência com Datastream',
+    subtitle: 'Criação de um pipeline de replicação de dados near real-time com redução de 98% em custos.',
+    summary: 'Desenvolvimento de uma arquitetura de ingestão de dados via Change Data Capture (CDC) para replicar dados de um banco transacional (MySQL) para um ambiente analítico (BigQuery) de forma confiável, rápida e econômica.',
+    challenge: [
+      'A metodologia anterior gerava alto consumo de recursos do banco de dados transacional, além de custos elevados no processamento.',
+      'Havia perda de dados durante o processo, comprometendo a confiabilidade da informação.',
+      'O tempo de replicação era alto para tabelas volumosas, inviabilizando análises com dados recentes.'
+    ],
+    myContribution: [
+      'Projetei e implementei uma solução nativa na Google Cloud, utilizando Datastream, Cloud Storage, Composer (Airflow) e BigQuery.',
+      'Configurei a captura de logs binários via CDC, exportando os dados em formato Avro para o Cloud Storage.',
+      'Desenhei uma arquitetura em camadas — External Tables, Streaming Views e Raw Tables — garantindo acesso aos dados em tempo real e lotes otimizados para análises.'
+    ],
+    techDeepDive: [
+      {
+        title: 'Arquitetura de Tabelas Externas e Views',
+        description: 'O Datastream grava os arquivos Avro diretamente no Cloud Storage. O BigQuery referencia esses arquivos por meio de Tabelas Externas (de D-2 até o dia corrente), sobre as quais é construída uma View que captura os registros mais recentes. Essa abordagem permite consultar dados atualizados em até 2 minutos, sem custo de processamento até o momento da leitura real. Por fim, um merge select transfere os dados para Raw Tables particionadas e clusterizadas, otimizando custos e desempenho de consultas. Toda a orquestração do pipeline é realizada via DAG no Cloud Composer (Airflow).'
+      }
+    ],
+    results: [
+      'Redução de 98% nos custos de replicação de dados.',
+      'Disponibilização dos dados para análise em minutos (near real-time), em vez de horas.',
+      'Criação de uma arquitetura de ingestão modular, escalável e replicável para múltiplos clientes SaaS.'
+    ],
   },
+  en: {
+    title: 'Low-Latency Ingestion with Datastream',
+    subtitle: 'Creation of a near real-time data replication pipeline with a 98% cost reduction.',
+    summary: 'Development of a Change Data Capture (CDC) data ingestion architecture to replicate a transactional database (MySQL) to an analytical environment (BigQuery) reliably, quickly, and cost-effectively.',
+    challenge: [
+      'The previous methodology consumed significant resources from the transactional database, resulting in high processing costs.',
+      'Data loss during replication compromised information reliability.',
+      'The replication process was too slow for large tables, making near real-time analysis impossible.'
+    ],
+    myContribution: [
+      'Architected and implemented a native Google Cloud solution using Datastream, Cloud Storage, Composer (Airflow), and BigQuery.',
+      'Set up CDC binlog capture to export Avro files to Cloud Storage.',
+      'Designed a layered architecture — External Tables, Streaming Views, and Raw Tables — enabling both real-time and batch-optimized data access.'
+    ],
+    techDeepDive: [
+      {
+        title: 'External Tables and Views Architecture',
+        description: 'Datastream writes Avro files directly to Cloud Storage. BigQuery references these files through External Tables (covering D-2 to current day), with a View that extracts the latest records. This approach provides data updates every 2 minutes with zero processing cost until the actual query is executed. A merge select then loads the data into partitioned and clustered Raw Tables, optimizing cost and query performance. The entire pipeline is orchestrated via a DAG in Cloud Composer (Airflow).'
+      }
+    ],
+    results: [
+      '98% reduction in data replication costs.',
+      'Data available for analysis within minutes (near real-time) instead of hours.',
+      'Modular, scalable, and easily replicable ingestion architecture for multiple SaaS clients.'
+    ],
+  }
+},
   'projeto-streamlit': {
     architectureDiagram: '/diagrama-streamlit.png', // Lembre de criar e adicionar esta imagem
     tags: ["Streamlit", "Embedded Analytics", "Python", "SaaS", "Looker Studio Alternative"],
