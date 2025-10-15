@@ -29,11 +29,11 @@ export default {
     email: "jlribeiro at id.uff.br"
   },
   projectPage: {
-    context: "Context",
-    problem: "The Problem",
-    solution: "The Solution & My Contribution",
-    results: "Results & Impact",
-    technologies: "Technologies Used",
-    deepDive: "Technical Deep Dive (Illustrative Code)"
+    context: "Contexto",
+    problem: "Problema",
+    solution: "Solução e Contribuição",
+    results: "Resultados e Impactos",
+    technologies: "Tecnologias utilizadas",
+    deepDive: "Detalhes técnicos"
   }
 };

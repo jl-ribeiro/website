@@ -27,5 +27,13 @@ export default {
     title: "Let's Talk?",
     paragraph: "I enjoy working on real data engineering challenges — whether optimizing existing architectures or building solutions from scratch on GCP or other cloud platforms. If you have a project or idea in mind, I'd be happy to connect.",
     email: "jlribeiro at id.uff.br",
+  },
+  projectPage: {
+    context: "Context",
+    problem: "The Problem",
+    solution: "The Solution & My Contribution",
+    results: "Results & Impact",
+    technologies: "Technologies Used",
+    deepDive: "Technical Deep Dive (Illustrative Code)"
   }
 };
