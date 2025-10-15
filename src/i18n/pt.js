@@ -7,32 +7,33 @@ export default {
   },
   hero: {
     title: "Jair Ribeiro",
-    subtitle: "Engenheiro de Dados especialista em resolver problemas complexos, transformando dados brutos em ecossistemas eficientes, escaláveis e de baixo custo na Google Cloud Platform.",
+    subtitle: "Transformo dados em vantagens competitivas. Com técnica, clareza e trabalho em equipe, construo soluções que geram impacto real.",
     contactBtn: "Entre em Contato",
     resumeBtn: "Baixar Currículo",
   },
   sobre: {
     title: "Sobre Mim",
-    paragraph1: "Minha paixão é atuar como um engenheiro de dados 'full stack', resolvendo problemas de ponta a ponta, desde a ingestão e modelagem até a criação de produtos de dados. Minha jornada profissional não-linear, com passagens por operações de alta complexidade como a aviação, me deu uma habilidade única de enxergar além do código.",
-    paragraph2: "Essa bagagem me permite entender a fundo a dor da operação, dialogar com stakeholders e adaptar soluções entre diferentes indústrias — como transformar um modelo de logística aeroportuária em uma solução para o varejo B2C. Eu construo soluções de dados que não são apenas tecnicamente robustas, mas que resolvem problemas reais de negócio.",
+    paragraph1: "Sou um engenheiro de dados com paixão por construir soluções de ponta a ponta — da ingestão e modelagem à entrega de produtos de dados que geram valor real. Minha trajetória não-linear, com experiências em operações de diversos segmentos do mercado, me ensinaram a olhar além do código e entender a realidade por trás dos números.",
+    paragraph2: "Essa bagagem me permite conversar com stakeholders em diferentes níveis, adaptar soluções entre setores e criar arquiteturas que conectam tecnologia e negócio. Acredito que dados bem trabalhados resolvem problemas reais — e é exatamente isso que me move.",
   },
   projetos: {
     title: "Projetos em Destaque"
   },
   stack: {
     title: "Minha stack de conhecimento",
+    subtitle: "Alguns dos trabalhos que mostram como transformo dados em soluções estratégicas e aplicáveis.",
   },
   contato: {
     title: "Vamos Conversar?",
-    paragraph: "Estou sempre buscando novos desafios em engenharia de dados, seja para otimizar arquiteturas existentes ou construir novas soluções do zero, na GCP ou em outras clouds. Se você tem um projeto em mente, vamos conversar.",
+    paragraph: "Gosto de desafios que envolvem engenharia de dados de verdade — seja otimizar arquiteturas existentes ou construir soluções do zero na GCP ou em outras clouds. Se você tem um projeto ou ideia em mente, será um prazer trocar experiências.",
     email: "jlribeiro at id.uff.br"
   },
   projectPage: {
-    context: "Context",
-    problem: "The Problem",
-    solution: "The Solution & My Contribution",
-    results: "Results & Impact",
-    technologies: "Technologies Used",
-    deepDive: "Technical Deep Dive (Illustrative Code)"
+    context: "Contexto",
+    problem: "Problema",
+    solution: "Solução e Contribuição",
+    results: "Resultados e Impactos",
+    technologies: "Tecnologias utilizadas",
+    deepDive: "Detalhes técnicos"
   }
 };
