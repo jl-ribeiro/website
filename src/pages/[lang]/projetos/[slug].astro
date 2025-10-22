@@ -4,6 +4,7 @@ import { Icon } from 'astro-icon/components';
 import { allProjects } from '../../../data/projects.js';
 import pt from '../../../i18n/pt.js';
 import en from '../../../i18n/en.js';
+import LightboxImage from '../../../components/LightboxImage.astro';
 
 export async function getStaticPaths() {
   const paths = [];
@@ -65,10 +66,11 @@ const project = {
               </li>
             ))}
           </ul>
-          <figure>
-            <img src={project.architectureDiagram} alt={`Diagrama de arquitetura do projeto ${project.title}`} class="rounded-lg shadow-lg" />
-            <figcaption class="text-center text-sm text-slate-400 mt-2">Diagrama de alto nível da arquitetura da solução.</figcaption>
-          </figure>
+          <LightboxImage 
+            src={project.architectureDiagram} 
+            alt={`Diagrama de arquitetura do projeto ${project.title}`} 
+            caption={`Diagrama de alto nível da arquitetura da solução do ${project.title}`}
+          />
         </section>
 
         <section class="mt-12">
