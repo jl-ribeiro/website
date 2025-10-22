@@ -3,7 +3,7 @@ name: Push to Deploy
 on:
   push:
     branches:
-      - prod
+      - master
       - develop
 
 jobs:
