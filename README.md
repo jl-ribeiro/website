@@ -31,6 +31,8 @@
 - [Sobre o Projeto](#about)
 - [Começando](#getting_started)
 - [Deploy](#deployment)
+- [Segurança](#security)
+- [Analytics](#analytics)
 - [Tecnologias Utilizadas](#built_using)
 - [Autor](#authors)
 
@@ -106,6 +108,19 @@ Usa a ação `peaceiris/actions-gh-pages` para fazer um force push do conteúdo 
 A integração Git configurada na Hostinger detecta a atualização na branch `deploy` e automaticamente "puxa" os arquivos para o diretório `public_html`, publicando o site ao vivo.
 
 Este fluxo garante que o ambiente de produção do site seja sempre um espelho exato da branch de deploy, tornando o processo robusto, rastreável e à prova de falhas manuais.
+
+## 🔒 Segurança <a name = "security"></a>
+
+O site é estático (sem backend nem formulários que enviem dados a servidor), o que reduz superfície de ataque. Boas práticas aplicadas:
+
+- **Links externos** que abrem em nova aba (`target="_blank"`) usam `rel="noopener noreferrer"` para evitar tab-nabbing.
+- **CI/CD** usa apenas `GITHUB_TOKEN` (secret padrão do GitHub) para publicar na branch `deploy`; não há secrets de aplicação no código.
+- **Conteúdo** é gerado em build a partir de dados em `src/data` e `src/i18n`; não há entrada de usuário que seja refletida no HTML (sem risco de XSS por conteúdo dinâmico).
+- **Headers de segurança** (CSP, HSTS, etc.): não são configurados no código; se o host (ex.: Hostinger) permitir, vale configurá-los no servidor para reforçar a segurança.
+
+## 📊 Analytics <a name = "analytics"></a>
+
+Para rastrear visitas e eventos quando o site estiver em produção, consulte **[docs/ANALYTICS.md](docs/ANALYTICS.md)**. O guia cobre integração com Google Analytics 4 ou Plausible, variáveis de ambiente e sugestões de eventos úteis para o portfólio.
 
 ⛏️ Tecnologias Utilizadas <a name = "built_using"></a>
 

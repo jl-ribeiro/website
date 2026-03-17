@@ -30,11 +30,11 @@ if (!projectDataByLang || !projectDataByLang[lang]) {
 const project = {
   ...projectDataByLang[lang],
   architectureDiagram: projectDataByLang.architectureDiagram,
-  technologies: projectDataByLang.technologies,
+  technologies: projectDataByLang.tags ?? projectDataByLang.technologies ?? [],
 };
 ---
 
-<Layout title={project.title}>
+<Layout title={project.title} description={project.summary}>
   <main class="pt-24 pb-20">
     <article class="max-w-4xl mx-auto px-4">
       

@@ -1,0 +1,17 @@
+---
+// Google Analytics 4 - carrega apenas em produção
+const GA_MEASUREMENT_ID = 'G-MEMXJ444RW';
+const isProd = import.meta.env.PROD;
+---
+
+{isProd && (
+  <>
+    <script is:inline src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}></script>
+    <script is:inline define:vars={{ GA_MEASUREMENT_ID }}>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', GA_MEASUREMENT_ID);
+    </script>
+  </>
+)}
