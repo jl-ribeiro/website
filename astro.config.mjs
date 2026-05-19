@@ -1,6 +1,7 @@
 import { defineConfig } from 'astro/config';
-import tailwind from "@astrojs/tailwind";
-import icon from "astro-icon";
+import tailwind from '@astrojs/tailwind';
+import icon from 'astro-icon';
+import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
@@ -9,20 +10,21 @@ export default defineConfig({
   site: 'https://jairribeiro.dev', // SUBSTITUA PELO SEU DOMÍNIO REAL
 
   integrations: [
-    tailwind(), 
+    tailwind(),
     icon({
       include: {
-        mdi: ['*']
-      }
+        mdi: ['*'],
+      },
     }),
+    sitemap(),
   ],
-  
+
   // 2. CONFIGURAÇÃO DE i18n LIMPA
   i18n: {
     defaultLocale: 'en',
     locales: ['en', 'pt'],
     routing: {
-      prefixDefaultLocale: true // <-- ALTERADO AQUI
-    }
-  }
+      prefixDefaultLocale: true, // <-- ALTERADO AQUI
+    },
+  },
 });

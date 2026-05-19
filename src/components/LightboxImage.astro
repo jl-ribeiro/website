@@ -9,13 +9,35 @@ const { src, alt, caption } = Astro.props;
 ---
 
 <figure class="relative block">
-  <img src={src} alt={alt} class="rounded-lg shadow-lg cursor-zoom-in transition-transform duration-200 hover:scale-[1.01]" data-lightbox-trigger />
-  {caption && <figcaption class="text-center text-sm text-slate-400 mt-2">{caption}</figcaption>}
+  <img
+    src={src}
+    alt={alt}
+    class="rounded-lg shadow-lg cursor-zoom-in transition-transform duration-200 hover:scale-[1.01]"
+    data-lightbox-trigger
+  />
+  {
+    caption && (
+      <figcaption class="text-center text-sm text-slate-400 mt-2">
+        {caption}
+      </figcaption>
+    )
+  }
 
-  <div class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center p-4 z-[9999] opacity-0 pointer-events-none transition-opacity duration-300" data-lightbox-overlay>
+  <div
+    class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center p-4 z-[9999] opacity-0 pointer-events-none transition-opacity duration-300"
+    data-lightbox-overlay
+  >
     <div class="relative max-w-5xl max-h-[90vh] overflow-auto">
-      <img src={src} alt={alt} class="max-w-full max-h-full rounded-lg shadow-xl" data-lightbox-img />
-      <button class="absolute top-4 right-4 text-white text-4xl font-light leading-none" data-lightbox-close>&times;</button>
+      <img
+        src={src}
+        alt={alt}
+        class="max-w-full max-h-full rounded-lg shadow-xl"
+        data-lightbox-img
+      />
+      <button
+        class="absolute top-4 right-4 text-white text-4xl font-light leading-none"
+        data-lightbox-close>&times;</button
+      >
       {caption && <p class="text-white text-center text-lg mt-4">{caption}</p>}
     </div>
   </div>
@@ -29,20 +51,21 @@ const { src, alt, caption } = Astro.props;
     const closeButtons = document.querySelectorAll('[data-lightbox-close]');
     const lightboxImages = document.querySelectorAll('[data-lightbox-img]');
 
-    triggers.forEach((trigger, index) => {
-      const overlay = overlays[index]; // Pega o overlay correspondente
-      const lightboxImg = lightboxImages[index];
+     triggers.forEach((trigger, index) => {
+       const overlay = overlays[index]; // Pega o overlay correspondente
+       const lightboxImg = lightboxImages[index] as HTMLImageElement;
+       const triggerImg = trigger as HTMLImageElement;
 
-      trigger.addEventListener('click', () => {
-        if (overlay && lightboxImg) {
-          overlay.classList.add('opacity-100', 'pointer-events-auto');
-          // Definir o src da imagem expandida (garante que, se for lazy loaded, esteja lá)
-          lightboxImg.src = trigger.src;
-        }
-      });
-    });
+       trigger.addEventListener('click', () => {
+         if (overlay && lightboxImg && triggerImg) {
+           overlay.classList.add('opacity-100', 'pointer-events-auto');
+           // Definir o src da imagem expandida (garante que, se for lazy loaded, esteja lá)
+           lightboxImg.src = triggerImg.src;
+         }
+       });
+     });
 
-    closeButtons.forEach(button => {
+    closeButtons.forEach((button) => {
       button.addEventListener('click', () => {
         const overlay = button.closest('[data-lightbox-overlay]');
         if (overlay) {
@@ -51,17 +74,21 @@ const { src, alt, caption } = Astro.props;
       });
     });
 
-    overlays.forEach(overlay => {
+    overlays.forEach((overlay) => {
       // Fecha ao clicar fora da imagem expandida
       overlay.addEventListener('click', (event) => {
-        if (event.target === overlay) { // Só fecha se clicar no próprio overlay, não na imagem
+        if (event.target === overlay) {
+          // Só fecha se clicar no próprio overlay, não na imagem
           overlay.classList.remove('opacity-100', 'pointer-events-auto');
         }
       });
 
       // Fecha ao apertar ESC
       document.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape' && overlay.classList.contains('opacity-100')) {
+        if (
+          event.key === 'Escape' &&
+          overlay.classList.contains('opacity-100')
+        ) {
           overlay.classList.remove('opacity-100', 'pointer-events-auto');
         }
       });
