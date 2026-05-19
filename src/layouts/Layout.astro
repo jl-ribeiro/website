@@ -7,29 +7,48 @@ import en from '../i18n/en.js';
 interface Props {
   title: string;
   description?: string;
+  image?: string;
+  ogType?: 'website' | 'article';
 }
 
-const { title, description } = Astro.props;
+const { title, description, image, ogType = 'website' } = Astro.props;
 
 // Pega o idioma atual e a tradução correta
 const t = Astro.currentLocale === 'pt' ? pt : en;
 
 // Cria o prefixo de URL correto para os links de navegação
-// Para inglês (padrão), o prefixo é "/", para português é "/pt/"
 const basePath =
   Astro.currentLocale === 'en' ? '/' : `/${Astro.currentLocale}/`;
+
+// URL absoluta para imagens (necessária para OG/Twitter)
+const siteUrl = Astro.site?.toString() || '';
+const ogImage = image ? new URL(image, Astro.site).href : `${siteUrl}favicon.svg`;
+
 ---
 
 <!doctype html>
 <html lang={Astro.currentLocale} class="scroll-smooth">
-  <head>
+<head>
     <meta charset="UTF-8" />
-    <GoogleAnalytics />
-    <meta name="description" content={description ?? t.hero.subtitle} />
     <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
+
+    <!-- SEO & Social Media -->
+    <meta name="description" content={description ?? t.hero.subtitle} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description ?? t.hero.subtitle} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={Astro.url.href} />
+    <meta property="og:image" content={ogImage} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description ?? t.hero.subtitle} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <GoogleAnalytics />
   </head>
   <body class="bg-slate-900 text-slate-300">
     <header
