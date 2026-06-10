@@ -6,34 +6,39 @@ export default {
     contact: 'Contact',
   },
   hero: {
-    title: "Jair Ribeiro",
-    subtitle: "I specialize in turning data into strategic solutions. With a collaborative approach, I create customized strategies that deliver real results. Explore my portfolio and discover how I can help boost your project.",
-    contactBtn: "Contact Me",
-    resumeBtn: "Download Resume",
+    title: 'Jair Ribeiro',
+    subtitle:
+      'Data Engineer | Transforming complexity into efficiency through scalable architectures and strategic data solutions on GCP.',
+    contactBtn: 'Contact Me',
+    resumeBtn: 'Download Resume',
   },
   sobre: {
-    title: "About Me",
-    paragraph1: "I’m a data engineer passionate about building end-to-end solutions — from ingestion and modeling to delivering data products that generate real value. My non-linear career path, with experience across various market sectors, has taught me to look beyond the code and understand the reality behind the numbers.",
-    paragraph2: "This background allows me to communicate effectively with stakeholders at different levels, adapt solutions to diverse contexts, and design architectures that connect technology and business. I believe well-crafted data solves real problems — and that’s exactly what drives my professional life.",
+    title: 'About Me',
+    paragraph1:
+      'I am a Data Engineer dedicated to building end-to-end pipelines that drive real business value. From ingestion and modeling to delivering production-ready data products, I specialize in creating robust architectures that bridge the gap between complex technology and strategic decision-making.',
+    paragraph2:
+      'My non-linear career has equipped me with the ability to navigate diverse market sectors and communicate effectively with stakeholders. I don’t just write code; I design scalable, cost-effective data ecosystems that solve real-world challenges.',
   },
   projetos: {
-    title: "Featured Projects"
+    title: 'Featured Projects',
   },
   stack: {
-    title: "Knowledge Stack",
-    subtitle: "Some of the projects that demonstrate how I turn data into strategic and practical solutions.",
+    title: 'Tech Stack',
+    subtitle:
+      'A showcase of engineering challenges solved through modern data architectures.',
   },
   contato: {
-    title: "Let's Talk?",
-    paragraph: "I enjoy challenges that involve real data engineering — whether optimizing existing architectures or building solutions from scratch, in GCP or other clouds. If you have a project or idea in mind, I’d be glad to exchange experiences.",
-    email: "jlribeiro@id.uff.br"
+    title: "Let's Connect?",
+    paragraph:
+      'I am always open to discussing new challenges, from optimizing existing cloud architectures to building scalable data platforms from scratch. If you have a project in mind, let’s talk.',
+    email: 'jlribeiro@id.uff.br',
   },
   projectPage: {
-    context: "Context",
-    problem: "Problem",
-    solution: "Solution and Contribution",
-    results: "Results and Impacts",
-    technologies: "Technologies Used",
-    deepDive: "Technical Details"
-  }
+    context: 'Context',
+    problem: 'Problem',
+    solution: 'Solution & Contribution',
+    results: 'Results & Impact',
+    technologies: 'Technologies Used',
+    deepDive: 'Technical Deep Dive',
+  },
 };

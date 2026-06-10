@@ -43,13 +43,13 @@ Eventos personalizados (ex.: “download_cv”) podem ser enviados com a API del
 
 Para um portfólio de **engenharia de dados** (ou similar), métricas que costumam impressionar em processos seletivos:
 
-| Métrica / evento | Por que importa |
-|------------------|------------------|
-| Visualizações de página por projeto | Mostra quais estudos de caso geram mais interesse. |
-| Cliques em “Currículo” / “Contato” | Demonstra conversão e interesse em você. |
-| Páginas de projeto mais acessadas | Ajuda a priorizar quais casos aprofundar em entrevistas. |
-| Idioma (PT vs EN) | Útil se você almeja vagas internacionais. |
-| Origem do tráfego (referrer) | Ver se vem do LinkedIn, GitHub, Google, etc. |
+| Métrica / evento                    | Por que importa                                          |
+| ----------------------------------- | -------------------------------------------------------- |
+| Visualizações de página por projeto | Mostra quais estudos de caso geram mais interesse.       |
+| Cliques em “Currículo” / “Contato”  | Demonstra conversão e interesse em você.                 |
+| Páginas de projeto mais acessadas   | Ajuda a priorizar quais casos aprofundar em entrevistas. |
+| Idioma (PT vs EN)                   | Útil se você almeja vagas internacionais.                |
+| Origem do tráfego (referrer)        | Ver se vem do LinkedIn, GitHub, Google, etc.             |
 
 Sugestão: configurar pelo menos **pageviews** e **eventos** para “Download Currículo” e “Clique em Contato” (mailto/LinkedIn/GitHub). Com GA4 ou Plausible você consegue isso; com GA4 ainda pode conectar o Search Console para ver buscas que levam ao site.
 

@@ -22,11 +22,18 @@ jobs:
           node-version: '20'
           cache: 'npm'
 
-      - name: Install dependencies
-        run: npm install
+       - name: Install dependencies
+         run: npm install
 
-      - name: Build project
-        run: npm run build
+       - name: Lint
+         run: npm run lint
+
+       - name: Typecheck
+         run: npm run typecheck
+
+       - name: Build project
+         run: npm run build
+
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
@@ -35,4 +42,4 @@ jobs:
           publish_dir: ./dist
           publish_branch: deploy
           keep_files: false
-          commit_message: "Deploy from ${{ github.ref_name }} - commit ${{ github.sha }}"
+          commit_message: 'Deploy from ${{ github.ref_name }} - commit ${{ github.sha }}'

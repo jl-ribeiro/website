@@ -56,7 +56,9 @@ Recomendo usar o `nvm` (Node Version Manager) para gerenciar as versões do Node
 ```bash
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
 ```
+
 ### Instalar a versão LTS do Node.js
+
 ```bash
 nvm install --lts
 ```
@@ -64,21 +66,25 @@ nvm install --lts
 # Instalação
 
 Clone o repositório:
+
 ```bash
 git clone https://github.com/jl-ribeiro/website.git
 ```
 
 Navegue até a pasta do projeto:
+
 ```bash
 cd website
 ```
 
 Instale as dependências do projeto:
+
 ```bash
 npm install
 ```
 
 Inicie o servidor de desenvolvimento:
+
 ```bash
 npm run dev
 ```

@@ -6,34 +6,40 @@ export default {
     contact: 'Contato',
   },
   hero: {
-    title: "Jair Ribeiro",
-    subtitle: "Sou especialista em transformar dados em soluções estratégicas. Com uma abordagem colaborativa, crio estratégias personalizadas que geram resultados reais. Explore meu portfólio e descubra como posso ajudar a impulsionar seu projeto.",
-    contactBtn: "Entre em Contato",
-    resumeBtn: "Baixar Currículo",
+    title: 'Jair Ribeiro',
+    subtitle:
+      'Engenheiro de Dados | Transformando complexidade em eficiência através de arquiteturas escaláveis e soluções estratégicas em GCP.',
+    contactBtn: 'Entre em Contato',
+    resumeBtn: 'Baixar Currículo',
   },
   sobre: {
-    title: "Sobre Mim",
-    paragraph1: "Sou um engenheiro de dados com paixão por construir soluções completas — da ingestão e modelagem à entrega de produtos de dados que geram valor real. Minha trajetória não linear, com experiências em operações de diversos segmentos do mercado, me ensinaram a olhar além do código e entender a realidade por trás dos números.",
-    paragraph2: "Essa bagagem me permite dialogar com stakeholders em vários níveis, adaptar soluções a diferentes contextos e projetar arquiteturas que conectam tecnologia e negócio. Acredito que dados bem trabalhados resolvem problemas reais — e é exatamente isso que move minha vida profissional.",
+    title: 'Sobre Mim',
+    paragraph1:
+      'Sou um Engenheiro de Dados dedicado a construir pipelines de ponta a ponta que geram valor real ao negócio. Da ingestão e modelagem à entrega de produtos de dados prontos para produção, sou especialista em projetar arquiteturas robustas que conectam tecnologia de ponta a decisões estratégicas.',
+    paragraph2:
+      'Minha trajetória não linear me permitiu navegar por diversos setores e dialogar com stakeholders em múltiplos níveis. Eu não apenas escrevo código; eu projeto ecossistemas de dados escaláveis e econômicos que resolvem problemas reais de negócio.',
   },
   projetos: {
-    title: "Projetos em Destaque"
+    title: 'Projetos em Destaque',
   },
   stack: {
-    title: "Stack de conhecimento",
-    subtitle: "Alguns dos projetos que demonstram como transformo dados em soluções estratégicas e aplicáveis.",
+    title: 'Stack Tecnológica',
+    subtitle:
+      'Uma vitrine de desafios de engenharia resolvidos através de arquiteturas de dados modernas.',
   },
   contato: {
-    title: "Vamos Conversar?",
-    paragraph: "Gosto de desafios que envolvem engenharia de dados de verdade — seja otimizar arquiteturas existentes ou construir soluções do zero, na GCP ou em outras clouds. Se você tem um projeto ou ideia em mente, será um prazer trocar experiências.",
-    email: "jlribeiro@id.uff.br"
+    title: 'Vamos Conversar?',
+    paragraph:
+      'Estou sempre aberto a discutir novos desafios, desde a otimização de arquiteturas em nuvem até a construção de plataformas de dados do zero. Se você tem um projeto em mente, será um prazer trocar experiências.',
+    email: 'jlribeiro@id.uff.br',
   },
   projectPage: {
-    context: "Contexto",
-    problem: "Problema",
-    solution: "Solução e Contribuição",
-    results: "Resultados e Impactos",
-    technologies: "Tecnologias utilizadas",
-    deepDive: "Detalhes técnicos"
-  }
+    context: 'Contexto',
+    problem: 'Problema',
+    solution: 'Solução e Contribuição',
+    results: 'Resultados e Impactos',
+    technologies: 'Tecnologias Utilizadas',
+    deepDive: 'Detalhes Técnicos',
+  },
 };
+

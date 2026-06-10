@@ -1,4 +1,32 @@
 ---
+interface TechDeepDive {
+  title: string;
+  description: string;
+  code?: string;
+  codeLanguage?: string;
+  embedUrl?: string;
+}
+
+interface ProjectLangData {
+  title: string;
+  subtitle: string;
+  summary: string;
+  challenge: string[];
+  myContribution: string[];
+  techDeepDive: TechDeepDive[];
+  results: string[];
+  technologies?: string[];
+  tags?: string[];
+}
+
+interface ProjectData {
+  architectureDiagram: string;
+  tags: string[];
+  linkGit: string;
+  pt: ProjectLangData;
+  en: ProjectLangData;
+}
+
 import Layout from '../../../layouts/Layout.astro';
 import { Icon } from 'astro-icon/components';
 import { allProjects } from '../../../data/projects.js';
@@ -12,7 +40,7 @@ export async function getStaticPaths() {
     for (const lang of ['en', 'pt']) {
       paths.push({
         params: { lang, slug },
-        props: { project: allProjects[slug] }
+        props: { project: allProjects[slug as keyof typeof allProjects] },
       });
     }
   }
@@ -20,107 +48,139 @@ export async function getStaticPaths() {
 }
 
 const { lang } = Astro.params;
-const { project: projectDataByLang } = Astro.props;
+const { project: projectDataByLang } = Astro.props as { project: ProjectData };
 const t = lang === 'pt' ? pt : en;
 
-if (!projectDataByLang || !projectDataByLang[lang]) {
+if (!projectDataByLang || !projectDataByLang[lang as 'en' | 'pt']) {
   return Astro.redirect('/404');
 }
 
+const langData = projectDataByLang[lang as 'en' | 'pt'];
 const project = {
-  ...projectDataByLang[lang],
+  ...langData,
   architectureDiagram: projectDataByLang.architectureDiagram,
-  technologies: projectDataByLang.tags ?? projectDataByLang.technologies ?? [],
+  technologies: langData.technologies ?? langData.tags ?? [],
 };
 ---
 
-<Layout title={project.title} description={project.summary}>
+<Layout title={`${project.title} | ${t.nav.projects}`} description={project.summary} image={project.architectureDiagram} ogType="article">
   <main class="pt-24 pb-20">
     <article class="max-w-4xl mx-auto px-4">
-      
       <header class="text-center mb-12">
-        <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">{project.title}</h1>
+        <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">
+          {project.title}
+        </h1>
         <p class="text-lg md:text-xl text-slate-300">{project.subtitle}</p>
       </header>
-      
+
       <div class="prose prose-invert prose-lg max-w-none mx-auto">
         <section class="mt-12">
           <h2>{t.projectPage.context}</h2>
-          <blockquote class="border-l-4 border-emerald-500 bg-slate-800/50 p-4 rounded-r-lg not-prose">
+          <blockquote
+            class="border-l-4 border-emerald-500 bg-slate-800/50 p-4 rounded-r-lg not-prose"
+          >
             <p class="text-slate-300">{project.summary}</p>
           </blockquote>
         </section>
 
         <section class="mt-12">
-          <h2>{t.projectPage.problem}</h2>
-          {(project.challenge || []).map((paragraph) => <p>{paragraph}</p>)}
-        </section>
+           <h2>{t.projectPage.problem}</h2>
+           {(project.challenge || []).map((paragraph: string) => <p>{paragraph}</p>)}
+         </section>
 
         <section class="mt-12">
           <h2>{t.projectPage.solution}</h2>
           <ul class="list-none p-0 mb-8">
-            {(project.myContribution || []).map((item) => (
-              <li class="flex items-start mb-2">
-                <Icon name="mdi:check-decagram" class="text-emerald-400 w-6 h-6 mr-3 flex-shrink-0 mt-1" />
-                <span>{item}</span>
-              </li>
-            ))}
+            {
+              (project.myContribution || []).map((item) => (
+                <li class="flex items-start mb-2">
+                  <Icon
+                    name="mdi:check-decagram"
+                    class="text-emerald-400 w-6 h-6 mr-3 flex-shrink-0 mt-1"
+                  />
+                  <span>{item}</span>
+                </li>
+              ))
+            }
           </ul>
-          <LightboxImage 
-            src={project.architectureDiagram} 
-            alt={`Diagrama de arquitetura do projeto ${project.title}`} 
+          <LightboxImage
+            src={project.architectureDiagram}
+            alt={`Diagrama de arquitetura do projeto ${project.title}`}
             caption={`Diagrama de alto nível da arquitetura da solução do ${project.title}`}
           />
         </section>
 
-        <section class="mt-12">
-          <h2>{t.projectPage.results}</h2>
-          <ul class="list-none p-0">
-            {(project.results || []).map((item) => (
-              <li class="flex items-start mb-2">
-                <Icon name="mdi:trophy-variant" class="text-amber-400 w-6 h-6 mr-3 flex-shrink-0 mt-1" />
-                <span>{item}</span>
-              </li>
-            ))}
-          </ul>
-        </section>
+         <section class="mt-12">
+           <h2>{t.projectPage.results}</h2>
+           <ul class="list-none p-0">
+             {
+               (project.results || []).map((item: string) => (
+                 <li class="flex items-start mb-2">
+                   <Icon
+                     name="mdi:trophy-variant"
+                     class="text-amber-400 w-6 h-6 mr-3 flex-shrink-0 mt-1"
+                   />
+                   <span>{item}</span>
+                 </li>
+               ))
+             }
+           </ul>
+         </section>
 
-        <section class="mt-12">
-          <h2>{t.projectPage.technologies}</h2>
-          <div class="flex flex-wrap gap-3">
-            {(project.technologies || []).map(tech => (
-              <span class="bg-slate-700 text-emerald-300 font-medium px-4 py-2 rounded-lg">{tech}</span>
-            ))}
-          </div>
-        </section>
+         <section class="mt-12">
+           <h2>{t.projectPage.technologies}</h2>
+           <div class="flex flex-wrap gap-3">
+             {
+               (project.technologies || []).map((tech: string) => (
+                 <span class="bg-slate-700 text-emerald-300 font-medium px-4 py-2 rounded-lg">
+                   {tech}
+                 </span>
+               ))
+             }
+           </div>
+         </section>
 
-        <section class="mt-12">
-          <h2>{t.projectPage.deepDive}</h2>
-          {(project.techDeepDive || []).map((item) => (
-            <div class="mb-8 border-l-2 border-slate-700 pl-4">
-              <h3 class="text-emerald-400 not-prose text-xl font-semibold">{item.title}</h3>
-              <p>{item.description}</p>
-              {item.code && (
-                <div class="bg-slate-900 rounded-lg overflow-hidden my-4">
-                  <pre class="p-4 text-sm"><code class={`language-${item.codeLanguage}`}>{item.code}</code></pre>
-                </div>
-              )}
-              {item.embedUrl && (
-                <div class="aspect-w-16 aspect-h-9 my-4 rounded-lg overflow-hidden">
-                  <iframe src={item.embedUrl} frameborder="0" style="border:0; width: 100%; height: 500px;" allowfullscreen></iframe>
-                </div>
-              )}
-            </div>
-          ))}
-        </section>
+         <section class="mt-12">
+           <h2>{t.projectPage.deepDive}</h2>
+           {
+             (project.techDeepDive || []).map((item: TechDeepDive) => (
+               <div class="mb-8 border-l-2 border-slate-700 pl-4">
+                 <h3 class="text-emerald-400 not-prose text-xl font-semibold">
+                   {item.title}
+                 </h3>
+                 <p>{item.description}</p>
+                 {item.code && (
+                   <div class="bg-slate-900 rounded-lg overflow-hidden my-4">
+                     <pre class="p-4 text-sm">
+                       <code class={`language-${item.codeLanguage}`}>
+                         {item.code}
+                       </code>
+                     </pre>
+                   </div>
+                 )}
+                 {item.embedUrl && (
+                   <div class="aspect-w-16 aspect-h-9 my-4 rounded-lg overflow-hidden">
+                     <iframe
+                       src={item.embedUrl}
+                       style="border:0; width: 100%; height: 500px;"
+                       allowfullscreen
+                     />
+                   </div>
+                 )}
+               </div>
+             ))
+           }
+         </section>
       </div>
 
       <div class="text-center mt-16">
-        <a href={`/${lang}/#projetos`} class="text-emerald-400 hover:text-emerald-300 font-semibold">
+        <a
+          href={`/${lang}/#projetos`}
+          class="text-emerald-400 hover:text-emerald-300 font-semibold"
+        >
           &larr; Voltar para todos os projetos
         </a>
       </div>
-
     </article>
   </main>
 </Layout>

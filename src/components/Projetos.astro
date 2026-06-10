@@ -4,25 +4,32 @@ import { allProjects } from '../data/projects.js';
 import pt from '../i18n/pt.js';
 import en from '../i18n/en.js';
 
-const t = Astro.currentLocale === 'en' ? en : pt;
-const projectsInCurrentLang = Object.entries(allProjects).map(([slug, project]) => {
+const t = (Astro.currentLocale as 'en' | 'pt') === 'en' ? en : pt;
+const projectsInCurrentLang = Object.entries(allProjects).map(
+  ([slug, project]) => {
     return {
-        slug: slug,
-        ...project[Astro.currentLocale] // Pega os dados do idioma atual (pt ou en)
-    }
-});
+      slug: slug,
+      ...(project[Astro.currentLocale as 'en' | 'pt'] as any), // Pega os dados do idioma atual (pt ou en)
+    };
+  },
+);
 ---
+
 <section id="projetos" class="max-w-5xl mx-auto py-20">
-    <h3 class="text-3xl font-bold text-white text-center mb-12">{t.projetos.title}</h3>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {projectsInCurrentLang.map(project => (
-            <CardProjeto 
-                slug={project.slug}
-                titulo={project.title}
-                descricao={project.description}
-                tags={allProjects[project.slug].tags}
-                linkGit={allProjects[project.slug].linkGit}
-            />
-        ))}
-    </div>
+  <h3 class="text-3xl font-bold text-white text-center mb-12">
+    {t.projetos.title}
+  </h3>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+    {
+      projectsInCurrentLang.map((project) => (
+        <CardProjeto
+          slug={project.slug}
+          titulo={project.title}
+          descricao={project.description}
+          tags={allProjects[project.slug as keyof typeof allProjects].tags}
+          linkGit={allProjects[project.slug as keyof typeof allProjects].linkGit}
+        />
+      ))
+    }
+  </div>
 </section>
