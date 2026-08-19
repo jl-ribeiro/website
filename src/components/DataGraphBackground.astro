@@ -1,0 +1,94 @@
+---
+interface Props {
+  /** Animated pulsing edges — only for hero. */
+  animated?: boolean;
+  /** Lower opacity for nested section use. */
+  intensity?: 'full' | 'soft';
+}
+
+const { animated = false, intensity = 'full' } = Astro.props;
+const opacityClass = intensity === 'soft' ? 'opacity-40' : 'opacity-100';
+---
+
+<div
+  class:list={[
+    'de-graph-bg pointer-events-none absolute inset-0 overflow-hidden',
+    opacityClass,
+  ]}
+  aria-hidden="true"
+>
+  <svg
+    class="absolute inset-0 h-full w-full"
+    viewBox="0 0 100 100"
+    preserveAspectRatio="xMidYMid slice"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <defs>
+      <pattern
+        id={`de-grid-${animated ? 'a' : 's'}-${intensity}`}
+        width="4"
+        height="4"
+        patternUnits="userSpaceOnUse"
+      >
+        <path
+          d="M 4 0 L 0 0 0 4"
+          fill="none"
+          stroke="rgba(148, 163, 184, 0.08)"
+          stroke-width="0.08"></path>
+      </pattern>
+      <linearGradient
+        id={`de-spark-${animated ? 'a' : 's'}-${intensity}`}
+        x1="0"
+        y1="0"
+        x2="1"
+        y2="0"
+      >
+        <stop offset="0%" stop-color="#22d3ee" stop-opacity="0"></stop>
+        <stop offset="45%" stop-color="#22d3ee" stop-opacity="0.45"></stop>
+        <stop offset="100%" stop-color="#5eead4" stop-opacity="0"></stop>
+      </linearGradient>
+    </defs>
+    <rect
+      width="100"
+      height="100"
+      fill={`url(#de-grid-${animated ? 'a' : 's'}-${intensity})`}></rect>
+
+    <g stroke="rgba(34, 211, 238, 0.2)" stroke-width="0.15" fill="none">
+      <path
+        d="M5 18 C20 10, 35 28, 48 22"
+        class={animated ? 'de-edge-pulse' : undefined}></path>
+      <path
+        d="M48 22 C62 16, 78 30, 92 20"
+        class={animated ? 'de-edge-pulse' : undefined}
+        style={animated ? 'animation-delay:0.8s' : undefined}></path>
+      <path
+        d="M12 55 C28 48, 40 62, 58 58"
+        class={animated ? 'de-edge-pulse' : undefined}
+        style={animated ? 'animation-delay:1.4s' : undefined}></path>
+      <path d="M58 58 C72 52, 84 68, 95 60"></path>
+      <path d="M20 82 C40 74, 55 88, 80 78"></path>
+      <line x1="25" y1="22" x2="30" y2="55"></line>
+      <line x1="70" y1="25" x2="65" y2="58"></line>
+    </g>
+
+    <g fill="#22d3ee">
+      <circle cx="8" cy="18" r="0.45" opacity="0.55"></circle>
+      <circle cx="48" cy="22" r="0.55" opacity="0.75"></circle>
+      <circle cx="92" cy="20" r="0.45" opacity="0.55"></circle>
+      <circle cx="30" cy="55" r="0.45" opacity="0.5"></circle>
+      <circle cx="58" cy="58" r="0.55" opacity="0.7"></circle>
+      <circle cx="80" cy="78" r="0.45" opacity="0.5"></circle>
+      <circle cx="18" cy="82" r="0.35" opacity="0.45"></circle>
+    </g>
+
+    <g
+      fill="none"
+      stroke={`url(#de-spark-${animated ? 'a' : 's'}-${intensity})`}
+      stroke-width="0.25"
+    >
+      <path
+        d="M4 88 L10 84 L16 86 L22 78 L28 81 L34 72 L40 76 L46 68 L52 71 L58 64 L64 70 L70 62 L76 66 L82 58 L88 63 L94 55"
+      ></path>
+    </g>
+  </svg>
+</div>

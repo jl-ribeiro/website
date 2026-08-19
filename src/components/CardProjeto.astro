@@ -2,45 +2,111 @@
 interface Props {
   slug: string;
   titulo: string;
+  highlight?: string;
   descricao: string;
   tags: string[];
   linkGit: string;
+  caseStudyBtn: string;
+  githubBtn: string;
+  featured?: boolean;
+  rootLabel?: string;
+  inProgress?: boolean;
+  inProgressLabel?: string;
 }
-const { slug, titulo, descricao, tags, linkGit } = Astro.props;
+const {
+  slug,
+  titulo,
+  highlight,
+  descricao,
+  tags,
+  linkGit,
+  caseStudyBtn,
+  githubBtn,
+  featured = false,
+  inProgress = false,
+  inProgressLabel = '',
+} = Astro.props;
 
-// Pega o idioma atual para construir o link correto
 const lang = Astro.currentLocale;
+const hasGithub = Boolean(linkGit && linkGit !== '#');
 ---
 
-<div
-  class="bg-slate-800 rounded-lg p-6 flex flex-col border border-slate-700 hover:border-emerald-500 transition-colors"
+<article
+  class:list={[
+    'reveal group relative flex flex-col transition-colors duration-300',
+    featured
+      ? 'border-l-4 border-cyan-400 pl-6 md:pl-8 py-2 md:py-4 pr-2'
+      : 'de-panel rounded-xl p-6 hover:border-cyan-400/25',
+    inProgress && !featured && 'border-amber-400/30',
+  ]}
 >
-  <h4 class="text-xl font-bold text-white mb-2">{titulo}</h4>
-  <p class="text-slate-400 mb-4 flex-grow">{descricao}</p>
+  {
+    inProgress && inProgressLabel && (
+      <p class="font-mono text-[10px] uppercase tracking-wider text-amber-300 mb-3">
+        {inProgressLabel}
+      </p>
+    )
+  }
 
-  <div class="flex flex-wrap gap-2 mb-4">
+  {
+    highlight && (
+      <p
+        class:list={[
+          'font-semibold tracking-tight mb-3 leading-snug',
+          inProgress ? 'text-amber-200' : 'text-cyan-300',
+          featured ? 'text-2xl md:text-3xl' : 'text-xl md:text-2xl',
+        ]}
+      >
+        {highlight}
+      </p>
+    )
+  }
+
+  <h4
+    class:list={[
+      'font-bold text-white mb-2 group-hover:text-cyan-50 transition-colors',
+      featured ? 'text-2xl md:text-3xl' : 'text-lg md:text-xl',
+    ]}
+  >
+    {titulo}
+  </h4>
+  <p
+    class:list={[
+      'text-slate-400 mb-5 flex-grow leading-relaxed',
+      featured && 'md:text-lg text-slate-300 max-w-3xl',
+    ]}
+  >
+    {descricao}
+  </p>
+
+  <div class="flex flex-wrap gap-2 mb-5">
     {
       tags.map((tag) => (
-        <span class="bg-slate-700 text-emerald-300 text-xs font-semibold px-2.5 py-0.5 rounded-full">
+        <span class="font-mono text-[10px] text-slate-400 bg-slate-950/80 border border-white/10 px-2 py-0.5 rounded">
           {tag}
         </span>
       ))
     }
   </div>
 
-  <div class="mt-auto flex items-center gap-6">
+  <div class="mt-auto flex items-center gap-5">
     <a
       href={`/${lang}/projetos/${slug}`}
-      class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-2 px-4 rounded-lg transition-colors text-sm"
+      class="bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-semibold py-2 px-4 rounded-lg transition-colors text-sm"
     >
-      Ver Estudo de Caso
+      {caseStudyBtn}
     </a>
-    <a
-      href={linkGit}
-      target="_blank"
-      rel="noopener noreferrer"
-      class="text-slate-300 hover:text-emerald-400 transition-colors text-sm"
-      >Ver no GitHub</a
-    >
+    {
+      hasGithub && (
+        <a
+          href={linkGit}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-sm text-slate-400 hover:text-cyan-300 transition-colors"
+        >
+          {githubBtn}
+        </a>
+      )
+    }
   </div>
-</div>
+</article>

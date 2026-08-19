@@ -10,7 +10,7 @@ const { name } = Astro.props;
 // Lembre-se de adicionar `class="w-12 h-12"` no SVG.
 ---
 
-<div class="flex flex-col items-center gap-2">
+<div class="flex flex-col items-center gap-2 text-slate-400 hover:text-cyan-300 transition-colors">
   <Fragment>
     {
       name === 'Python' && (
@@ -121,6 +121,77 @@ const { name } = Astro.props;
       )
     }
     {
+      name === 'Dataform' && (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="w-12 h-12"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          stroke-width="1"
+          stroke="currentColor"
+          fill="none"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+          <path d="M12 3l8 4.5v9l-8 4.5l-8 -4.5v-9l8 -4.5" />
+          <path d="M12 12l8 -4.5" />
+          <path d="M12 12v9" />
+          <path d="M12 12l-8 -4.5" />
+          <path d="M16 5.25l-8 4.5" />
+        </svg>
+      )
+    }
+    {
+      name === 'GKE' && (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="w-12 h-12"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          stroke-width="1"
+          stroke="currentColor"
+          fill="none"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+          <path d="M5 12l7 -7l7 7" />
+          <path d="M5 12l7 7l7 -7" />
+          <path d="M12 5v14" />
+          <path d="M5 12h14" />
+          <circle cx="12" cy="12" r="2" />
+        </svg>
+      )
+    }
+    {
+      name === 'Datastream' && (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="w-12 h-12"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          stroke-width="1"
+          stroke="currentColor"
+          fill="none"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+          <path d="M3 7h6" />
+          <path d="M9 7a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" />
+          <path d="M15 7h6" />
+          <path d="M3 17h6" />
+          <path d="M9 17a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" />
+          <path d="M15 17h6" />
+          <path d="M12 10v4" />
+        </svg>
+      )
+    }
+    {
       name === 'dbt' && (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -158,27 +229,6 @@ const { name } = Astro.props;
           <>
             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
             <path d="M13.4142 3.82843C12.6332 3.04738 11.3668 3.04738 10.5858 3.82843L9.91421 4.5L11.482 6.06774C11.6472 6.02356 11.8208 6 12 6C13.1046 6 14 6.89543 14 8C14 8.17916 13.9764 8.35282 13.9323 8.51804L15.982 10.5677C16.1472 10.5236 16.3208 10.5 16.5 10.5C17.6046 10.5 18.5 11.3954 18.5 12.5C18.5 13.6046 17.6046 14.5 16.5 14.5C15.3954 14.5 14.5 13.6046 14.5 12.5C14.5 12.3208 14.5236 12.1472 14.5677 11.982L13 10.4142V15.2676C13.5978 15.6134 14 16.2597 14 17C14 18.1046 13.1046 19 12 19C10.8954 19 10 18.1046 10 17C10 16.2597 10.4022 15.6134 11 15.2676V9.73244C10.4022 9.38663 10 8.74028 10 8C10 7.82084 10.0236 7.64718 10.0677 7.48196L8.5 5.91421L3.82843 10.5858C3.04738 11.3668 3.04738 12.6332 3.82843 13.4142L10.5858 20.1716C11.3668 20.9526 12.6332 20.9526 13.4142 20.1716L20.1716 13.4142C20.9526 12.6332 20.9526 11.3668 20.1716 10.5858L13.4142 3.82843ZM9.17157 2.41421C10.7337 0.852115 13.2663 0.852119 14.8284 2.41422L21.5858 9.17157C23.1479 10.7337 23.1479 13.2663 21.5858 14.8284L14.8284 21.5858C13.2663 23.1479 10.7337 23.1479 9.17157 21.5858L2.41421 14.8284C0.852115 13.2663 0.852119 10.7337 2.41422 9.17157L9.17157 2.41421Z" />
-          </>
-        </svg>
-      )
-    }
-    {
-      name === 'Looker' && (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="w-12 h-12 icon icon-tabler icon-tabler-chart-infographic"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          stroke-width="1"
-          stroke="currentColor"
-          fill="none"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <>
-            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-            <path d="M11.947 0a2.1 2.1 0 0 0-2.095 2.104 2.1 2.1 0 0 0 .355 1.166l.895-.896a.884.884 0 1 1 .565.564l-.895.895A2.096 2.096 0 0 0 13.118.359 2.096 2.096 0 0 0 11.948 0zm-.834 6.113a3.263 3.263 0 0 0-.653-1.965L9.294 5.31a1.667 1.667 0 0 1-.317 2.012l.632 1.545a3.282 3.282 0 0 0 1.503-2.754zm-3.25 1.666h-.03a1.67 1.67 0 0 1-.004-3.338 1.669 1.669 0 0 1 .92.275L9.9 3.564a3.28 3.28 0 0 0-4.133 5.094 3.28 3.28 0 0 0 2.728.666L7.863 7.78v-.001zm4.128 1.336c-.728 0-1.452.106-2.15.315l.922 2.252a5.02 5.02 0 1 1-1.127.435l-.91-2.244a7.442 7.442 0 0 0-3.41 9.956v.001a7.442 7.442 0 0 0 9.957 3.41h.001a7.442 7.442 0 0 0 3.412-9.957A7.442 7.442 0 0 0 12 9.113h-.008l-.001.002z" />
           </>
         </svg>
       )
@@ -304,5 +354,5 @@ const { name } = Astro.props;
       )
     }
   </Fragment>
-  <span class="text-slate-300">{name}</span>
+  <span class="text-slate-400 text-xs font-mono">{name}</span>
 </div>

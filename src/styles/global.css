@@ -1,1 +1,9 @@
-@import 'tailwindcss';
+/* Fonts loaded via Google Fonts in Layout; Tailwind via @astrojs/tailwind */
+
+html {
+  font-family: Outfit, ui-sans-serif, system-ui, sans-serif;
+}
+
+body {
+  font-family: Outfit, ui-sans-serif, system-ui, sans-serif;
+}

@@ -1,0 +1,37 @@
+---
+import en from '../i18n/en.js';
+import pt from '../i18n/pt.js';
+import { impactMetrics } from '../data/graph.js';
+import SectionBackdrop from './SectionBackdrop.astro';
+
+const locale = Astro.currentLocale === 'en' ? 'en' : 'pt';
+const t = locale === 'en' ? en : pt;
+const metrics = impactMetrics[locale];
+---
+
+<SectionBackdrop variant="solid" id="impacto">
+  <div class="max-w-5xl mx-auto px-4 py-24">
+    <div class="reveal text-center mb-12">
+      <h3 class="text-3xl md:text-4xl font-bold text-white mb-2">
+        {t.impact.title}
+      </h3>
+      <p class="text-slate-500 text-sm">{t.impact.subtitle}</p>
+    </div>
+
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6">
+      {
+        metrics.map((m) => (
+          <div class="reveal de-panel rounded-xl p-6 text-center bg-slate-950/60">
+            <p class="text-4xl md:text-5xl font-bold text-cyan-300 mb-3 tracking-tight">
+              {m.value}
+            </p>
+            <p class="text-sm text-slate-300 leading-snug">{m.label}</p>
+            <p class="mt-3 font-mono text-[10px] uppercase tracking-wider text-slate-600">
+              {m.ref}
+            </p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</SectionBackdrop>
