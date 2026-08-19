@@ -3,33 +3,78 @@ import CardProjeto from './CardProjeto.astro';
 import { allProjects } from '../data/projects.js';
 import pt from '../i18n/pt.js';
 import en from '../i18n/en.js';
+import SectionBackdrop from './SectionBackdrop.astro';
 
-const t = (Astro.currentLocale as 'en' | 'pt') === 'en' ? en : pt;
+const locale = (Astro.currentLocale as 'en' | 'pt') === 'en' ? 'en' : 'pt';
+const t = locale === 'en' ? en : pt;
+
 const projectsInCurrentLang = Object.entries(allProjects).map(
   ([slug, project]) => {
+    const content = project[locale];
     return {
-      slug: slug,
-      ...(project[Astro.currentLocale as 'en' | 'pt'] as any), // Pega os dados do idioma atual (pt ou en)
+      slug,
+      title: content.title,
+      highlight: content.highlight,
+      descricao: content.subtitle,
+      tags: project.tags,
+      linkGit: project.linkGit,
+      featured: Boolean((project as { featured?: boolean }).featured),
+      inProgress: Boolean((project as { inProgress?: boolean }).inProgress),
     };
   },
 );
+
+const featured = projectsInCurrentLang.find((p) => p.featured);
+const others = projectsInCurrentLang.filter((p) => !p.featured);
 ---
 
-<section id="projetos" class="max-w-5xl mx-auto py-20">
-  <h3 class="text-3xl font-bold text-white text-center mb-12">
-    {t.projetos.title}
-  </h3>
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<SectionBackdrop variant="solid" id="projetos">
+  <div class="max-w-5xl mx-auto px-4 py-28">
+    <div class="reveal text-center mb-14">
+      <h3 class="text-3xl md:text-4xl font-bold text-white mb-3">
+        {t.projetos.title}
+      </h3>
+      <p class="text-slate-400 text-sm md:text-base max-w-xl mx-auto">
+        {t.projetos.subtitle}
+      </p>
+    </div>
+
     {
-      projectsInCurrentLang.map((project) => (
-        <CardProjeto
-          slug={project.slug}
-          titulo={project.title}
-          descricao={project.description}
-          tags={allProjects[project.slug as keyof typeof allProjects].tags}
-          linkGit={allProjects[project.slug as keyof typeof allProjects].linkGit}
-        />
-      ))
+      featured && (
+        <div class="mb-14">
+          <CardProjeto
+            slug={featured.slug}
+            titulo={featured.title}
+            highlight={featured.highlight}
+            descricao={featured.descricao}
+            tags={featured.tags}
+            linkGit={featured.linkGit}
+            caseStudyBtn={t.projetos.caseStudyBtn}
+            githubBtn={t.projetos.githubBtn}
+            featured
+            rootLabel={t.projetos.rootLabel}
+          />
+        </div>
+      )
     }
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+      {
+        others.map((project) => (
+          <CardProjeto
+            slug={project.slug}
+            titulo={project.title}
+            highlight={project.highlight}
+            descricao={project.descricao}
+            tags={project.tags}
+            linkGit={project.linkGit}
+            caseStudyBtn={t.projetos.caseStudyBtn}
+            githubBtn={t.projetos.githubBtn}
+            inProgress={project.inProgress}
+            inProgressLabel={t.projetos.inProgress}
+          />
+        ))
+      }
+    </div>
   </div>
-</section>
+</SectionBackdrop>
