@@ -1,0 +1,70 @@
+---
+import { heroGraph } from '../data/graph.js';
+
+interface Props {
+  basePath: string;
+  graphLabel: string;
+}
+
+const { basePath, graphLabel } = Astro.props;
+const nodeMap = Object.fromEntries(heroGraph.nodes.map((n) => [n.id, n]));
+---
+
+<div
+  class="relative w-full aspect-[4/3] de-panel rounded-lg p-2 shadow-node bg-slate-950/85"
+>
+  <p class="sr-only">{graphLabel}</p>
+  <svg
+    viewBox="0 0 100 80"
+    class="w-full h-full"
+    role="img"
+    aria-label={graphLabel}
+  >
+    {
+      heroGraph.edges.map(([a, b]) => {
+        const na = nodeMap[a];
+        const nb = nodeMap[b];
+        if (!na || !nb) return null;
+        return (
+          <line
+            x1={na.x}
+            y1={na.y}
+            x2={nb.x}
+            y2={nb.y}
+            class="graph-edge"
+            data-edge-a={a}
+            data-edge-b={b}
+          />
+        );
+      })
+    }
+    {
+      heroGraph.nodes.map((node) => (
+        <a
+          href={`${basePath}${node.href}`}
+          class="graph-node focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 rounded-full"
+          data-graph-node={node.id}
+        >
+          <circle
+            cx={node.x}
+            cy={node.y}
+            r="3.2"
+            fill="#0b1220"
+            stroke="#22d3ee"
+            stroke-width="0.7"
+          />
+          <circle cx={node.x} cy={node.y} r="1.1" fill="#22d3ee" />
+          <text
+            x={node.x}
+            y={node.y + 7}
+            text-anchor="middle"
+            class="fill-slate-200"
+            style="font-size: 3.2px; font-family: ui-monospace, monospace"
+          >
+            {node.label}
+          </text>
+        </a>
+      ))
+    }
+  </svg>
+</div>

@@ -1,0 +1,64 @@
+---
+import en from '../i18n/en.js';
+import pt from '../i18n/pt.js';
+import { experience } from '../data/experience.js';
+import SectionBackdrop from './SectionBackdrop.astro';
+
+const locale = Astro.currentLocale === 'en' ? 'en' : 'pt';
+const t = locale === 'en' ? en : pt;
+---
+
+<SectionBackdrop variant="solid-alt" id="experiencia">
+  <div class="max-w-3xl mx-auto px-4 py-28">
+    <div class="reveal text-center mb-14">
+      <h3 class="text-3xl md:text-4xl font-bold text-white mb-2">
+        {t.experiencia.title}
+      </h3>
+      <p class="text-slate-500 text-sm">{t.experiencia.subtitle}</p>
+    </div>
+
+    <ol class="relative space-y-8 border-l border-white/10 ml-3 md:ml-4">
+      {
+        experience.map((job) => {
+          const content = job[locale];
+          return (
+            <li class="reveal relative pl-8 md:pl-10">
+              <span
+                class="absolute -left-[5px] top-3 h-2.5 w-2.5 rounded-full bg-cyan-400"
+                aria-hidden="true"
+              />
+              <article class="de-panel rounded-xl p-5 md:p-7 bg-slate-950/70">
+                <div class="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 mb-1">
+                  <h4 class="text-xl font-bold text-white">
+                    {content.role}
+                    <span class="text-cyan-300 font-semibold">
+                      {' '}
+                      · {job.company}
+                    </span>
+                  </h4>
+                  <p class="font-mono text-xs text-slate-500">{content.period}</p>
+                </div>
+                <p class="font-mono text-xs text-slate-600 mb-5">
+                  {content.location}
+                </p>
+                <ul class="space-y-3">
+                  {content.bullets.map((bullet) => (
+                    <li class="flex items-start gap-2.5 text-slate-300 text-sm md:text-base leading-relaxed">
+                      <span
+                        class="text-cyan-400/80 mt-1.5 shrink-0 text-xs"
+                        aria-hidden="true"
+                      >
+                        ›
+                      </span>
+                      <span>{bullet}</span>
+                    </li>
+                  ))}
+                </ul>
+              </article>
+            </li>
+          );
+        })
+      }
+    </ol>
+  </div>
+</SectionBackdrop>

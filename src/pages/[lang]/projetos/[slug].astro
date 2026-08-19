@@ -9,6 +9,7 @@ interface TechDeepDive {
 
 interface ProjectLangData {
   title: string;
+  highlight?: string;
   subtitle: string;
   summary: string;
   challenge: string[];
@@ -23,6 +24,8 @@ interface ProjectData {
   architectureDiagram: string;
   tags: string[];
   linkGit: string;
+  featured?: boolean;
+  inProgress?: boolean;
   pt: ProjectLangData;
   en: ProjectLangData;
 }
@@ -33,6 +36,8 @@ import { allProjects } from '../../../data/projects.js';
 import pt from '../../../i18n/pt.js';
 import en from '../../../i18n/en.js';
 import LightboxImage from '../../../components/LightboxImage.astro';
+import fs from 'node:fs';
+import path from 'node:path';
 
 export async function getStaticPaths() {
   const paths = [];
@@ -50,6 +55,7 @@ export async function getStaticPaths() {
 const { lang } = Astro.params;
 const { project: projectDataByLang } = Astro.props as { project: ProjectData };
 const t = lang === 'pt' ? pt : en;
+const locale = lang === 'pt' ? 'pt' : 'en';
 
 if (!projectDataByLang || !projectDataByLang[lang as 'en' | 'pt']) {
   return Astro.redirect('/404');
@@ -59,126 +65,216 @@ const langData = projectDataByLang[lang as 'en' | 'pt'];
 const project = {
   ...langData,
   architectureDiagram: projectDataByLang.architectureDiagram,
-  technologies: langData.technologies ?? langData.tags ?? [],
+  technologies: langData.technologies ?? projectDataByLang.tags ?? [],
 };
+
+const diagramRelative = project.architectureDiagram.replace(/^\//, '');
+const hasDiagram = fs.existsSync(
+  path.join(process.cwd(), 'public', diagramRelative),
+);
+const slug = Astro.params.slug ?? '';
+const inProgress = Boolean(projectDataByLang.inProgress);
+const metrics = (project.highlight || '')
+  .split(/[·•|]/)
+  .map((m) => m.trim())
+  .filter(Boolean);
 ---
 
-<Layout title={`${project.title} | ${t.nav.projects}`} description={project.summary} image={project.architectureDiagram} ogType="article">
-  <main class="pt-24 pb-20">
-    <article class="max-w-4xl mx-auto px-4">
-      <header class="text-center mb-12">
-        <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">
+<Layout
+  title={`${project.title} | ${t.nav.projects}`}
+  description={project.summary}
+  image={hasDiagram ? project.architectureDiagram : undefined}
+  ogType="article"
+  readingMode
+>
+  <main class="pt-24 pb-24 px-4 bg-[#020617]">
+    <article class="max-w-3xl mx-auto">
+      <nav class="mb-8 font-mono text-xs text-slate-500 flex flex-wrap gap-2 items-center">
+        <a href={`/${locale}/`} class="hover:text-cyan-300 transition-colors"
+          >{t.projectPage.breadcrumbHome}</a
+        >
+        <span class="text-slate-700">→</span>
+        <a
+          href={`/${locale}/#projetos`}
+          class="hover:text-cyan-300 transition-colors"
+          >{t.projectPage.breadcrumbProjects}</a
+        >
+        <span class="text-slate-700">→</span>
+        <span class="text-cyan-400">node:{slug}</span>
+      </nav>
+
+      <header class="text-center mb-8">
+        {
+          inProgress && (
+            <p class="font-mono text-[11px] uppercase tracking-wider text-amber-300 mb-4">
+              {t.projetos.inProgress}
+            </p>
+          )
+        }
+        <h1 class="text-4xl md:text-5xl font-bold text-white mb-4 tracking-tight">
           {project.title}
         </h1>
-        <p class="text-lg md:text-xl text-slate-300">{project.subtitle}</p>
+        <p class="text-lg md:text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed">
+          {project.subtitle}
+        </p>
       </header>
 
-      <div class="prose prose-invert prose-lg max-w-none mx-auto">
-        <section class="mt-12">
-          <h2>{t.projectPage.context}</h2>
-          <blockquote
-            class="border-l-4 border-emerald-500 bg-slate-800/50 p-4 rounded-r-lg not-prose"
-          >
-            <p class="text-slate-300">{project.summary}</p>
+      {
+        inProgress && (
+          <div class="de-panel rounded-xl px-5 py-4 mb-8 border border-amber-400/30 bg-amber-950/20 text-center">
+            <p class="text-sm md:text-base text-amber-100/90 leading-relaxed m-0">
+              {t.projectPage.inProgressBanner}
+            </p>
+          </div>
+        )
+      }
+
+      {
+        metrics.length > 0 && (
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+            {metrics.map((metric) => (
+              <div class="de-panel rounded-xl px-5 py-5 text-center bg-slate-950/80">
+                <p class="text-xl md:text-2xl font-bold text-cyan-300 tracking-tight">
+                  {metric}
+                </p>
+              </div>
+            ))}
+          </div>
+        )
+      }
+
+      <div class="flex flex-wrap justify-center gap-2 mb-12 pb-10 border-b border-white/10">
+        {
+          project.technologies.map((tech: string) => (
+            <span class="font-mono text-[10px] bg-slate-950 text-slate-400 px-2.5 py-1 rounded border border-white/10">
+              {tech}
+            </span>
+          ))
+        }
+      </div>
+
+      <div
+        class="prose prose-invert prose-lg max-w-none mx-auto prose-headings:text-white prose-headings:font-semibold prose-p:text-slate-200 prose-p:leading-relaxed"
+      >
+        <section class="mb-16">
+          <h2 class="!mt-0 !mb-6 text-cyan-300">{t.projectPage.context}</h2>
+          <blockquote class="de-panel border-l-4 !border-cyan-400 p-5 rounded-r-lg not-prose !border-y-0 !border-r-0 bg-slate-950">
+            <p class="text-slate-200 leading-relaxed m-0">{project.summary}</p>
           </blockquote>
         </section>
 
-        <section class="mt-12">
-           <h2>{t.projectPage.problem}</h2>
-           {(project.challenge || []).map((paragraph: string) => <p>{paragraph}</p>)}
-         </section>
-
-        <section class="mt-12">
-          <h2>{t.projectPage.solution}</h2>
-          <ul class="list-none p-0 mb-8">
+        <section class="mb-16">
+          <h2 class="!mt-0 !mb-6 text-cyan-300">
+            {inProgress ? t.projectPage.resultsInProgress : t.projectPage.results}
+          </h2>
+          <ul class="list-none p-0 not-prose space-y-3">
             {
-              (project.myContribution || []).map((item) => (
-                <li class="flex items-start mb-2">
+              (project.results || []).map((item: string) => (
+                <li class="flex items-start de-panel rounded-lg p-3 bg-slate-950">
                   <Icon
-                    name="mdi:check-decagram"
-                    class="text-emerald-400 w-6 h-6 mr-3 flex-shrink-0 mt-1"
+                    name={inProgress ? 'mdi:flag-outline' : 'mdi:trophy-variant'}
+                    class="text-amber-300 w-6 h-6 mr-3 flex-shrink-0 mt-0.5"
                   />
-                  <span>{item}</span>
+                  <span class="text-slate-200 leading-relaxed">{item}</span>
                 </li>
               ))
             }
           </ul>
-          <LightboxImage
-            src={project.architectureDiagram}
-            alt={`Diagrama de arquitetura do projeto ${project.title}`}
-            caption={`Diagrama de alto nível da arquitetura da solução do ${project.title}`}
-          />
         </section>
 
-         <section class="mt-12">
-           <h2>{t.projectPage.results}</h2>
-           <ul class="list-none p-0">
-             {
-               (project.results || []).map((item: string) => (
-                 <li class="flex items-start mb-2">
-                   <Icon
-                     name="mdi:trophy-variant"
-                     class="text-amber-400 w-6 h-6 mr-3 flex-shrink-0 mt-1"
-                   />
-                   <span>{item}</span>
-                 </li>
-               ))
-             }
-           </ul>
-         </section>
+        <section class="mb-16">
+          <h2 class="!mt-0 !mb-6 text-cyan-300">{t.projectPage.problem}</h2>
+          <div class="space-y-4">
+            {
+              (project.challenge || []).map((paragraph: string) => (
+                <p class="!my-0">{paragraph}</p>
+              ))
+            }
+          </div>
+        </section>
 
-         <section class="mt-12">
-           <h2>{t.projectPage.technologies}</h2>
-           <div class="flex flex-wrap gap-3">
-             {
-               (project.technologies || []).map((tech: string) => (
-                 <span class="bg-slate-700 text-emerald-300 font-medium px-4 py-2 rounded-lg">
-                   {tech}
-                 </span>
-               ))
-             }
-           </div>
-         </section>
+        <section class="mb-16">
+          <h2 class="!mt-0 !mb-6 text-cyan-300">{t.projectPage.solution}</h2>
+          <ul class="list-none p-0 mb-10 not-prose space-y-3">
+            {
+              (project.myContribution || []).map((item) => (
+                <li class="flex items-start">
+                  <Icon
+                    name="mdi:check-decagram"
+                    class="text-cyan-300 w-6 h-6 mr-3 flex-shrink-0 mt-1"
+                  />
+                  <span class="text-slate-200 leading-relaxed">{item}</span>
+                </li>
+              ))
+            }
+          </ul>
+          {
+            hasDiagram ? (
+              <LightboxImage
+                src={project.architectureDiagram}
+                alt={`Diagrama de arquitetura do projeto ${project.title}`}
+                caption={`Diagrama de alto nível da arquitetura da solução do ${project.title}`}
+              />
+            ) : (
+              <div class="rounded-lg border border-dashed border-cyan-500/30 bg-slate-950 px-6 py-16 text-center text-slate-500 font-mono text-sm not-prose">
+                {t.projectPage.diagramMissing}
+              </div>
+            )
+          }
+        </section>
 
-         <section class="mt-12">
-           <h2>{t.projectPage.deepDive}</h2>
-           {
-             (project.techDeepDive || []).map((item: TechDeepDive) => (
-               <div class="mb-8 border-l-2 border-slate-700 pl-4">
-                 <h3 class="text-emerald-400 not-prose text-xl font-semibold">
-                   {item.title}
-                 </h3>
-                 <p>{item.description}</p>
-                 {item.code && (
-                   <div class="bg-slate-900 rounded-lg overflow-hidden my-4">
-                     <pre class="p-4 text-sm">
-                       <code class={`language-${item.codeLanguage}`}>
-                         {item.code}
-                       </code>
-                     </pre>
-                   </div>
-                 )}
-                 {item.embedUrl && (
-                   <div class="aspect-w-16 aspect-h-9 my-4 rounded-lg overflow-hidden">
-                     <iframe
-                       src={item.embedUrl}
-                       style="border:0; width: 100%; height: 500px;"
-                       allowfullscreen
-                     />
-                   </div>
-                 )}
-               </div>
-             ))
-           }
-         </section>
+        <section class="mb-16">
+          <h2 class="!mt-0 !mb-6 text-cyan-300">{t.projectPage.technologies}</h2>
+          <div class="flex flex-wrap gap-3 not-prose">
+            {
+              (project.technologies || []).map((tech: string) => (
+                <span class="font-mono text-sm bg-slate-900 text-cyan-200 px-3 py-1.5 rounded border border-cyan-500/20">
+                  {tech}
+                </span>
+              ))
+            }
+          </div>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="!mt-0 !mb-8 text-cyan-300">{t.projectPage.deepDive}</h2>
+          {
+            (project.techDeepDive || []).map((item: TechDeepDive) => (
+              <div class="mb-10 border-l-2 border-slate-700 pl-5">
+                <h3 class="text-cyan-300 not-prose text-xl font-semibold !mt-0 !mb-3">
+                  {item.title}
+                </h3>
+                <p class="!my-0">{item.description}</p>
+                {item.code && (
+                  <div class="bg-slate-950 rounded-lg overflow-hidden my-4 border border-slate-800">
+                    <pre class="p-4 text-sm">
+                      <code class={`language-${item.codeLanguage}`}>
+                        {item.code}
+                      </code>
+                    </pre>
+                  </div>
+                )}
+                {item.embedUrl && (
+                  <div class="aspect-w-16 aspect-h-9 my-4 rounded-lg overflow-hidden">
+                    <iframe
+                      src={item.embedUrl}
+                      style="border:0; width: 100%; height: 500px;"
+                      allowfullscreen
+                    />
+                  </div>
+                )}
+              </div>
+            ))
+          }
+        </section>
       </div>
 
-      <div class="text-center mt-16">
+      <div class="text-center mt-16 pt-8 border-t border-slate-800">
         <a
-          href={`/${lang}/#projetos`}
-          class="text-emerald-400 hover:text-emerald-300 font-semibold"
+          href={`/${locale}/#projetos`}
+          class="font-mono text-sm text-cyan-300 hover:text-cyan-200 transition-colors"
         >
-          &larr; Voltar para todos os projetos
+          &larr; {t.projectPage.backToProjects}
         </a>
       </div>
     </article>

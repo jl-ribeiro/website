@@ -1,0 +1,112 @@
+---
+/**
+ * Per-section backdrop. Interactive/animated graph only via variant="graph".
+ * Reading surfaces use solid colors so text wins over decoration.
+ */
+interface Props {
+  variant?: 'graph' | 'bars' | 'spark' | 'solid' | 'solid-alt' | 'reading';
+  /** Extra classes on the outer section wrapper */
+  class?: string;
+  id?: string;
+}
+
+const { variant = 'solid', class: className = '', id } = Astro.props;
+---
+
+<section
+  id={id}
+  class:list={['relative overflow-hidden', `de-section--${variant}`, className]}
+>
+  {
+    variant === 'graph' && (
+      <div class="absolute inset-0 -z-10">
+        <slot name="backdrop" />
+      </div>
+    )
+  }
+
+  {
+    variant === 'bars' && (
+      <div class="pointer-events-none absolute inset-0 -z-10 opacity-[0.06]" aria-hidden="true">
+        <svg class="h-full w-full" viewBox="0 0 120 40" preserveAspectRatio="xMidYMid slice">
+          <g fill="#22d3ee">
+            <rect x="8" y="22" width="6" height="14" rx="0.5" />
+            <rect x="18" y="16" width="6" height="20" rx="0.5" />
+            <rect x="28" y="10" width="6" height="26" rx="0.5" />
+            <rect x="38" y="18" width="6" height="18" rx="0.5" />
+            <rect x="48" y="8" width="6" height="28" rx="0.5" />
+            <rect x="58" y="14" width="6" height="22" rx="0.5" />
+            <rect x="68" y="20" width="6" height="16" rx="0.5" />
+            <rect x="78" y="12" width="6" height="24" rx="0.5" />
+            <rect x="88" y="6" width="6" height="30" rx="0.5" />
+            <rect x="98" y="16" width="6" height="20" rx="0.5" />
+            <rect x="108" y="11" width="6" height="25" rx="0.5" />
+          </g>
+        </svg>
+      </div>
+    )
+  }
+
+  {
+    variant === 'spark' && (
+      <div class="pointer-events-none absolute inset-0 -z-10 opacity-[0.08]" aria-hidden="true">
+        <svg class="h-full w-full" viewBox="0 0 100 40" preserveAspectRatio="none">
+          <polyline
+            fill="none"
+            stroke="#5eead4"
+            stroke-width="0.6"
+            points="0,28 8,26 16,30 24,18 32,22 40,12 48,16 56,8 64,14 72,10 80,18 88,6 100,12"
+          />
+          <polyline
+            fill="none"
+            stroke="#22d3ee"
+            stroke-width="0.4"
+            opacity="0.6"
+            points="0,32 10,30 20,34 30,24 40,28 50,20 60,26 70,16 80,22 90,14 100,20"
+          />
+        </svg>
+      </div>
+    )
+  }
+
+  <div class="relative z-0">
+    <slot />
+  </div>
+</section>
+
+<style>
+  .de-section--graph {
+    background:
+      radial-gradient(
+        ellipse 80% 55% at 70% 40%,
+        rgba(34, 211, 238, 0.1),
+        transparent 60%
+      ),
+      radial-gradient(
+        ellipse 50% 40% at 15% 20%,
+        rgba(94, 234, 212, 0.06),
+        transparent 50%
+      ),
+      linear-gradient(180deg, #020617 0%, #07111f 55%, #0b1220 100%);
+  }
+
+  .de-section--bars {
+    background-color: #070f1a;
+  }
+
+  .de-section--spark {
+    background-color: #050b14;
+  }
+
+  .de-section--solid {
+    background-color: #0b1220;
+  }
+
+  .de-section--solid-alt {
+    background-color: #080e18;
+  }
+
+  .de-section--reading {
+    background-color: #020617;
+  }
+</style>
