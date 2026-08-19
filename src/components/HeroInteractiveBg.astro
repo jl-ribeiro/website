@@ -21,23 +21,32 @@
 </div>
 
 <script>
-  function initHeroNet(root) {
-    const canvas = root.querySelector('[data-hero-net-canvas]');
-    if (!canvas || !(canvas instanceof HTMLCanvasElement)) return;
+  type NetNode = { x: number; y: number; vx: number; vy: number; r: number };
 
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
+  function initHeroNet(root: Element) {
+    const found = root.querySelector('[data-hero-net-canvas]');
+    if (!(found instanceof HTMLCanvasElement)) return;
+    const canvas: HTMLCanvasElement = found;
+
+    const maybeCtx = canvas.getContext('2d');
+    if (!maybeCtx) return;
+    const ctx: CanvasRenderingContext2D = maybeCtx;
 
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const section = root.closest('section') || root.parentElement;
-    if (!section) return;
+    const host = root.closest('section') || root.parentElement;
+    if (!(host instanceof HTMLElement)) return;
+    const section: HTMLElement = host;
 
     let width = 0;
     let height = 0;
     let dpr = 1;
     let raf = 0;
-    let nodes = [];
-    const mouse = { x: null, y: null, active: false };
+    let nodes: NetNode[] = [];
+    const mouse: { x: number | null; y: number | null; active: boolean } = {
+      x: null,
+      y: null,
+      active: false,
+    };
 
     const LINK_DIST = 140;
     const MOUSE_DIST = 180;
@@ -164,7 +173,7 @@
       if (!reduce) raf = requestAnimationFrame(step);
     }
 
-    function onMove(e) {
+    function onMove(e: PointerEvent) {
       const rect = section.getBoundingClientRect();
       mouse.x = e.clientX - rect.left;
       mouse.y = e.clientY - rect.top;
