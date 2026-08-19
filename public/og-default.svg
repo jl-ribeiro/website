@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="Jair Ribeiro">
+  <rect width="1200" height="630" fill="#020617"/>
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+  <g stroke="#22d3ee" stroke-opacity="0.35" stroke-width="2" fill="none">
+    <line x1="180" y1="200" x2="420" y2="160"/>
+    <line x1="420" y1="160" x2="700" y2="200"/>
+    <line x1="420" y1="160" x2="520" y2="360"/>
+    <line x1="700" y1="200" x2="980" y2="280"/>
+  </g>
+  <g fill="#22d3ee">
+    <circle cx="180" cy="200" r="8"/>
+    <circle cx="420" cy="160" r="10"/>
+    <circle cx="700" cy="200" r="8"/>
+    <circle cx="520" cy="360" r="8"/>
+    <circle cx="980" cy="280" r="8"/>
+  </g>
+  <text x="80" y="480" fill="#f8fafc" font-family="ui-monospace, monospace" font-size="56" font-weight="700">Jair Ribeiro</text>
+  <text x="80" y="540" fill="#22d3ee" font-family="ui-monospace, monospace" font-size="28">Data Engineer � GCP &amp; BigQuery</text>
+</svg>

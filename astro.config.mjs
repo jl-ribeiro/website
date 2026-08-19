@@ -5,9 +5,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  // 1. ADICIONE A URL FINAL DO SEU SITE AQUI
-  // Isso força o Astro a criar caminhos absolutos para CSS, JS, etc.
-  site: 'https://jairribeiro.dev', // SUBSTITUA PELO SEU DOMÍNIO REAL
+  site: 'https://jairribeiro.dev',
 
   integrations: [
     tailwind(),

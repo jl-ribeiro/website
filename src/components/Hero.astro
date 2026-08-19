@@ -1,34 +1,77 @@
 ---
 import en from '../i18n/en.js';
 import pt from '../i18n/pt.js';
+import SectionBackdrop from './SectionBackdrop.astro';
+import HeroInteractiveBg from './HeroInteractiveBg.astro';
+import fs from 'node:fs';
+import path from 'node:path';
 
-const t = Astro.currentLocale === 'en' ? en : pt;
+const locale = Astro.currentLocale === 'en' ? 'en' : 'pt';
+const t = locale === 'en' ? en : pt;
+const basePath = `/${locale}/`;
+
+const resumePath = path.join(process.cwd(), 'public', 'CV_Jair_Ribeiro.pdf');
+const hasResume = fs.existsSync(resumePath);
 ---
 
-<section
-  class="max-w-4xl mx-auto h-screen flex flex-col justify-center items-center text-center"
->
-  <h1 class="text-4xl md:text-6xl font-bold text-white mb-4">
-    {t.hero.title}
-  </h1>
-  <h2 class="text-2xl md:text-3xl text-slate-300 mb-8">
-    {t.hero.subtitle}
-  </h2>
+<SectionBackdrop variant="graph">
+  <HeroInteractiveBg slot="backdrop" />
 
-  <div class="flex flex-col sm:flex-row gap-4">
-    <a
-      href="#contato"
-      class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 px-6 rounded-lg transition-colors"
-    >
-      {t.hero.contactBtn}
-    </a>
+  <div
+    class="reveal relative max-w-3xl mx-auto min-h-[88vh] flex flex-col justify-center px-4 pt-24 pb-20"
+  >
+    <div class="relative text-center md:text-left max-w-2xl mx-auto md:mx-0">
+      <div
+        class="pointer-events-none absolute -inset-6 md:-inset-10 rounded-3xl bg-slate-950/70 blur-2xl -z-10"
+        aria-hidden="true"
+      ></div>
 
-    <a
-      href="/CV_Jair_Ribeiro.pdf"
-      download
-      class="border border-emerald-500 text-emerald-500 hover:bg-emerald-500 hover:text-white font-bold py-3 px-6 rounded-lg transition-colors"
-    >
-      {t.hero.resumeBtn}
-    </a>
+      <p class="font-mono text-xs text-cyan-400/90 tracking-[0.18em] uppercase mb-5">
+        {t.hero.stackBadge}
+      </p>
+
+      <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold text-white tracking-tight mb-3">
+        {t.hero.title}
+      </h1>
+
+      <h2 class="text-lg md:text-xl text-cyan-300 font-medium mb-5">
+        {t.hero.subtitle}
+      </h2>
+
+      <p class="text-base md:text-lg text-slate-300 mb-8 max-w-lg mx-auto md:mx-0 leading-relaxed">
+        {t.hero.description}
+      </p>
+
+      <div
+        class="flex flex-col sm:flex-row gap-3 justify-center md:justify-start"
+      >
+        <a
+          href={`${basePath}#projetos`}
+          class="bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-semibold py-3 px-6 rounded-lg transition-colors"
+        >
+          {t.hero.projectsBtn}
+        </a>
+        {
+          hasResume ? (
+            <a
+              href="/CV_Jair_Ribeiro.pdf"
+              download
+              class="border border-white/20 text-slate-100 hover:bg-white/5 font-medium py-3 px-6 rounded-lg transition-colors text-sm"
+            >
+              {t.hero.resumeBtn}
+            </a>
+          ) : (
+            <a
+              href="https://www.linkedin.com/in/jlribeiro"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="border border-white/20 text-slate-100 hover:bg-white/5 font-medium py-3 px-6 rounded-lg transition-colors text-sm"
+            >
+              {t.hero.linkedinBtn}
+            </a>
+          )
+        }
+      </div>
+    </div>
   </div>
-</section>
+</SectionBackdrop>

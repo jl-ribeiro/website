@@ -1,18 +1,23 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import Hero from '../../components/Hero.astro';
-import Sobre from '../../components/Sobre.astro';
-import Stack from '../../components/Stack.astro';
+import ImpactStrip from '../../components/ImpactStrip.astro';
+import Experience from '../../components/Experience.astro';
 import Projetos from '../../components/Projetos.astro';
+import Stack from '../../components/Stack.astro';
+import Sobre from '../../components/Sobre.astro';
 import Contato from '../../components/Contato.astro';
+import en from '../../i18n/en.js';
 ---
 
-<Layout title="Jair Ribeiro's Portfolio">
-  <main class="px-4">
+<Layout title={en.seo.title} description={en.seo.description}>
+  <main>
     <Hero />
-    <Sobre />
-    <Stack />
+    <ImpactStrip />
+    <Experience />
     <Projetos />
+    <Stack />
+    <Sobre />
     <Contato />
   </main>
 </Layout>

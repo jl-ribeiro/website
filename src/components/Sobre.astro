@@ -1,18 +1,45 @@
 ---
 import en from '../i18n/en.js';
 import pt from '../i18n/pt.js';
+import SectionBackdrop from './SectionBackdrop.astro';
 
-const t = Astro.currentLocale === 'en' ? en : pt;
+const locale = Astro.currentLocale === 'en' ? 'en' : 'pt';
+const t = locale === 'en' ? en : pt;
+const basePath = `/${locale}/`;
 ---
 
-<section id="sobre" class="max-w-3xl mx-auto py-20">
-  <h3 class="text-3xl font-bold text-white text-center mb-8">
-    {t.sobre.title}
-  </h3>
-  <p class="text-lg mb-4">
-    {t.sobre.paragraph1}
-  </p>
-  <p class="text-lg">
-    {t.sobre.paragraph2}
-  </p>
-</section>
+<SectionBackdrop variant="solid-alt" id="sobre">
+  <div class="max-w-3xl mx-auto px-4 py-28">
+    <div class="reveal de-panel rounded-xl p-6 md:p-9 bg-slate-950/70">
+      <h3 class="text-3xl md:text-4xl font-bold text-white mb-6">{t.sobre.title}</h3>
+      <div class="space-y-5">
+        <p class="text-lg text-slate-300 leading-relaxed">
+          {t.sobre.paragraph1}
+        </p>
+        <p class="text-lg text-slate-300 leading-relaxed">
+          {t.sobre.paragraph2}
+        </p>
+        <div class="pt-5 border-t border-white/10">
+          <p class="text-xs text-slate-500 tracking-wider mb-3 uppercase font-medium">
+            {t.sobre.educationTitle}
+          </p>
+          <ul class="space-y-2">
+            {
+              t.sobre.education.map((item) => (
+                <li class="text-sm text-slate-400 leading-relaxed">{item}</li>
+              ))
+            }
+          </ul>
+        </div>
+        <p class="pt-2">
+          <a
+            href={`${basePath}#contato`}
+            class="text-sm text-cyan-300 hover:text-cyan-200 transition-colors font-medium"
+          >
+            {t.sobre.contactLink} →
+          </a>
+        </p>
+      </div>
+    </div>
+  </div>
+</SectionBackdrop>
