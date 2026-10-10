@@ -12,6 +12,7 @@ export interface Project {
   type: string;
   tags: string[];
   inProgress?: boolean;
+  sectionOrder?: number[];
   copy: Record<Locale, CaseCopy>;
 }
 // Metrics use the confirmed scope supplied in the interview. Internal financial amounts remain private.
@@ -99,6 +100,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'projeto-streamlit',
+    sectionOrder: [0, 1, 4, 3, 5, 6],
     number: '03',
     type: 'product',
     tags: ['Python', 'Streamlit', 'Pipelines'],
@@ -137,6 +139,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'sla-logistico',
+    sectionOrder: [0, 2, 3, 4, 5, 6],
     number: '04',
     type: 'process',
     tags: ['SLA', 'Process mapping', 'Analytics'],
@@ -175,6 +178,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'airflow-gke',
+    sectionOrder: [0, 4, 2, 3, 6],
     number: '05',
     type: 'layers',
     tags: ['Airflow', 'GKE', 'Cloud Composer'],
@@ -211,6 +215,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'wiki-agentes-ia',
+    sectionOrder: [0, 4, 3, 5, 6],
     number: '06',
     type: 'process',
     inProgress: true,

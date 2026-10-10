@@ -16,6 +16,10 @@ const { project } = Astro.props;
 const locale = getLocale(Astro.params.lang);
 const t = translations[locale];
 const copy = project.copy[locale];
+const sections = copy.sections.map((body, i) => ({
+  body,
+  label: t.caseSections[project.sectionOrder?.[i] ?? i],
+}));
 const next =
   projects[
     (projects.findIndex((item) => item.slug === project.slug) + 1) %
@@ -60,7 +64,7 @@ const next =
             : 'Case study sections'}
         >
           {
-            t.caseSections.map((label, i) => (
+            sections.map(({ label }, i) => (
               <a href={`#section-${i}`}>
                 {`0${i + 1}`}
                 <span>{label}</span>
@@ -74,11 +78,11 @@ const next =
         </div>
       </aside><div class="prose article-body">
         {
-          copy.sections.map((body, i) => (
+          sections.map(({ body, label }, i) => (
             <section id={`section-${i}`}>
               <>
                 <span class="eyebrow">0{i + 1}</span>
-                <h2>{t.caseSections[i]}</h2>
+                <h2>{label}</h2>
                 <p>{body}</p>
               </>
             </section>

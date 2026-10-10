@@ -26,16 +26,20 @@ test('both locales include the six main pages and six complete case studies', ()
     ]) {
       assert.ok(existsSync(localFile(`/${lang}/${page}`)), `${lang}/${page}`);
     }
-    for (const slug of [
-      'ingestao-cdc',
-      'otimizacao-dataform',
-      'projeto-streamlit',
-      'sla-logistico',
-      'airflow-gke',
-      'wiki-agentes-ia',
+    for (const [slug, sectionCount] of [
+      ['ingestao-cdc', 7],
+      ['otimizacao-dataform', 7],
+      ['projeto-streamlit', 6],
+      ['sla-logistico', 6],
+      ['airflow-gke', 5],
+      ['wiki-agentes-ia', 5],
     ]) {
       const html = read(`${lang}/projetos/${slug}/index.html`);
-      assert.equal((html.match(/id="section-\d"/g) || []).length, 7);
+      assert.equal((html.match(/id="section-\d+"/g) || []).length, sectionCount);
+      assert.equal((html.match(/href="#section-\d+"/g) || []).length, sectionCount);
+      for (let i = 0; i < sectionCount; i++) {
+        assert.match(html, new RegExp(`<section id="section-${i}">[\\s\\S]*?<h2>[^<]+</h2>`));
+      }
     }
   }
 });
@@ -82,15 +86,20 @@ test('internal links, fragments, alternate language URLs and assets resolve', ()
   }
 });
 
-test('unverified numerical claims and confidential financial amounts are not published', () => {
+test('superseded numerical claims and confidential financial amounts are not published', () => {
   for (const file of htmlFiles) {
     const html = read(file);
     assert.doesNotMatch(
       html,
-      /R\$|98[,.]5\s*%|97\s*%|98\s*%|600\s*mil|perda zero|zero loss/i,
+      /R\$|98[,.]5\s*%|97\s*%|600\s*mil|perda zero|zero loss/i,
     );
   }
   for (const lang of ['pt', 'en']) {
+    // EDITORIAL.md confirms this metric for the direct ingestion-model comparison.
+    const ingestion = read(`${lang}/projetos/ingestao-cdc/index.html`);
+    assert.match(ingestion, lang === 'pt'
+      ? /aproximadamente 98% de redução no custo de ingestão/
+      : /approximately 98% lower ingestion cost/);
     const html = read(`${lang}/projetos/otimizacao-dataform/index.html`);
     assert.match(
       html,
