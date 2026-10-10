@@ -1,0 +1,19 @@
+---
+import type { Locale } from '../data/profile';
+import { translations } from '../i18n';
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = translations[locale];
+---
+
+<section class="closing container" id="contato">
+  <div>
+    <p class="eyebrow">
+      {locale === 'pt' ? 'A PRÓXIMA CONVERSA' : 'THE NEXT CONVERSATION'}
+    </p><h2>{t.closing}</h2><p>{t.closingText}</p>
+  </div><a class="button button-dark" href={`/${locale}/contato/`}
+    >{t.talk}<span aria-hidden="true">↗</span></a
+  >
+</section>

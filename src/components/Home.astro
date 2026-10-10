@@ -1,0 +1,174 @@
+---
+import Layout from '../layouts/Layout.astro';
+import CaseCard from './CaseCard.astro';
+import ProcessArt from './ProcessArt.astro';
+import Closing from './Closing.astro';
+import { projects } from '../data/projects';
+import type { Locale } from '../data/profile';
+import { translations } from '../i18n';
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = translations[locale];
+const pt = locale === 'pt';
+const base = `/${locale}/`;
+---
+
+<Layout>
+  <section class="hero container">
+    <div class="hero-copy">
+      <p class="eyebrow"><span class="tiny-square"></span>{t.role}</p><h1>
+        {t.hero[0]}<br /><em>{t.hero[1]}</em><br />{t.hero[2]}
+      </h1><p class="hero-intro">{t.intro}</p><div class="hero-actions">
+        <a class="button button-dark" href={`${base}cases/`}
+          >{t.work}<span aria-hidden="true">↗</span></a
+        ><a class="text-link" href={`${base}servicos/`}
+          >{t.business}<span aria-hidden="true">→</span></a
+        >
+      </div>
+    </div>
+    <div class="hero-art">
+      <ProcessArt locale={locale} /><p class="art-caption">
+        <span>JAIR RIBEIRO</span>{
+          pt
+            ? 'Visão de negócio. Execução em engenharia.'
+            : 'Business perspective. Engineering execution.'
+        }
+      </p>
+    </div>
+  </section>
+  <section
+    class="proof-strip container"
+    aria-label={pt ? 'Áreas de impacto' : 'Areas of impact'}
+  >
+    <div>
+      <span class="proof-symbol">↘</span><p>
+        <strong
+          >{pt ? 'Eficiência operacional' : 'Operational efficiency'}</strong
+        ><span
+          >{
+            pt
+              ? 'Arquitetura conectada ao custo'
+              : 'Architecture connected to cost'
+          }</span
+        >
+      </p>
+    </div><div>
+      <span class="proof-symbol">◎</span><p>
+        <strong>{pt ? 'Processos mensuráveis' : 'Measurable processes'}</strong
+        ><span
+          >{
+            pt
+              ? 'Visibilidade para decidir melhor'
+              : 'Visibility for better decisions'
+          }</span
+        >
+      </p>
+    </div><div>
+      <span class="proof-symbol">↗</span><p>
+        <strong>{pt ? 'Soluções que evoluem' : 'Solutions that evolve'}</strong
+        ><span
+          >{
+            pt ? 'Clareza para o próximo passo' : 'Clarity for the next step'
+          }</span
+        >
+      </p>
+    </div>
+  </section>
+  <section class="section container" id="projetos">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">
+          01 / {pt ? 'TRABALHO EM PRÁTICA' : 'WORK IN PRACTICE'}
+        </p><h2>{t.featured}</h2>
+      </div><a class="text-link" href={`${base}cases/`}
+        >{t.allCases} <span aria-hidden="true">↗</span></a
+      >
+    </div><div class="case-grid">
+      {
+        projects
+          .slice(0, 3)
+          .map((project) => <CaseCard project={project} locale={locale} />)
+      }
+    </div>
+  </section>
+  <section class="method-section" id="metodo">
+    <div class="container">
+      <div class="method-heading">
+        <p class="eyebrow">02 / {t.methodLabel}</p><h2>{t.methodTitle}</h2><p>
+          {t.methodIntro}
+        </p>
+      </div><div class="method-grid">
+        {
+          t.steps.map(([title, body], i) => (
+            <div>
+              <>
+                <span class="step-number">
+                  0{i + 1}
+                  <span aria-hidden="true">↗</span>
+                </span>
+                <h3>{title}</h3>
+                <p>{body}</p>
+              </>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+  <section class="section container service-preview" id="servicos">
+    <div>
+      <p class="eyebrow">03 / {t.serviceLabel}</p><h2>{t.serviceTitle}</h2><p>
+        {t.serviceIntro}
+      </p><a class="button button-outline" href={`${base}servicos/`}
+        >{t.serviceCta}<span aria-hidden="true">↗</span></a
+      >
+    </div><div class="service-paper">
+      <span class="eyebrow"
+        >{
+          pt ? 'PRIMEIRO, O DIAGNÓSTICO.' : 'FIRST, UNDERSTAND THE PROCESS.'
+        }</span
+      ><h3>
+        {
+          pt
+            ? 'Entender antes de automatizar.'
+            : 'Understand before automating.'
+        }
+      </h3>{
+        (pt
+          ? ['Onde estamos hoje', 'O que precisa mudar', 'Por onde começar']
+          : ['Where things stand', 'What needs to change', 'Where to start']
+        ).map((item, i) => (
+          <div class="paper-row">
+            <span>0{i + 1}</span>
+            {item}
+            <span aria-hidden="true">↗</span>
+          </div>
+        ))
+      }<p>
+        {
+          pt
+            ? 'Um plano que é seu. A implementação é opcional.'
+            : 'A plan you own. Implementation is optional.'
+        }
+      </p>
+    </div>
+  </section>
+  <section class="about-preview container" id="sobre">
+    <div class="about-monogram" id="experiencia" aria-hidden="true">
+      jr<span>.</span><small
+        >{
+          pt ? 'NEGÓCIO → DADOS → ENGENHARIA' : 'BUSINESS → DATA → ENGINEERING'
+        }</small
+      >
+    </div><div>
+      <p class="eyebrow">04 / {t.aboutLabel}</p><h2>{t.aboutTitle}</h2><p>
+        {t.aboutIntro}
+      </p><a class="text-link" href={`${base}sobre/`}
+        >{t.aboutCta}<span aria-hidden="true">↗</span></a
+      >
+    </div>
+  </section>
+  <Closing locale={locale} />
+</Layout>

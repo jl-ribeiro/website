@@ -1,0 +1,690 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Closing from '../../components/Closing.astro';
+import CaseCard from '../../components/CaseCard.astro';
+import { locales, pageIds, profile } from '../../data/profile';
+import { projects } from '../../data/projects';
+import { getLocale, translations } from '../../i18n';
+import { existsSync } from 'node:fs';
+export function getStaticPaths() {
+  return locales.flatMap((lang) =>
+    pageIds.map((page) => ({ params: { lang, page } })),
+  );
+}
+const locale = getLocale(Astro.params.lang);
+const page = Astro.params.page!;
+const t = translations[locale];
+const pt = locale === 'pt';
+const base = `/${locale}/`;
+const title = t.nav[pageIds.indexOf(page as (typeof pageIds)[number]) + 1];
+const hasResume = existsSync('public/CV_Jair_Ribeiro.pdf');
+const headings: Record<string, string> = pt
+  ? {
+      cases: 'O problema vem antes da solução.',
+      sobre: 'Um olhar de negócio. Uma forma de pensar em engenharia.',
+      experiencia: 'Uma trajetória que conecta as pontas.',
+      servicos: 'Sua operação cresceu. Os processos acompanharam?',
+      contato: 'Vamos começar pelo contexto.',
+    }
+  : {
+      cases: 'The problem comes before the solution.',
+      sobre: 'A business perspective. An engineering mindset.',
+      experiencia: 'A career connecting the dots.',
+      servicos: 'Your business grew. Did your processes keep up?',
+      contato: 'Let’s start with context.',
+    };
+const descriptions: Record<string, string> = pt
+  ? {
+      cases: t.casesIntro,
+      sobre: t.aboutIntro,
+      experiencia:
+        'De operações e desenvolvimento a dados e arquitetura: uma evolução guiada por problemas reais e pelo uso da informação.',
+      servicos:
+        'Se a equipe perde tempo com planilhas, retrabalho e informações espalhadas, o primeiro passo é entender o que está por trás dessa rotina.',
+      contato:
+        'Uma oportunidade profissional ou um desafio na sua empresa. Conte o que está acontecendo e o que você gostaria de mudar.',
+    }
+  : {
+      cases: t.casesIntro,
+      sobre: t.aboutIntro,
+      experiencia:
+        'From operations and development to data and architecture: a career shaped by real problems and the practical use of information.',
+      servicos:
+        'If your team loses time to spreadsheets, rework and scattered information, the first step is understanding what drives that routine.',
+      contato:
+        'A career opportunity or a challenge in your business. Share what is happening and what you would like to change.',
+    };
+const mail = (subject: string) =>
+  `mailto:${profile.email}?subject=${encodeURIComponent(subject)}`;
+---
+
+<Layout title={`${title} | Jair Ribeiro`} description={descriptions[page]}>
+  <div class="container page-intro">
+    <a class="breadcrumb" href={base}
+      >{t.nav[0]} <span aria-hidden="true">/</span></a
+    ><p class="eyebrow">{title}</p><h1>{headings[page]}</h1><p
+      class="page-lead"
+    >
+      {descriptions[page]}
+    </p>
+  </div>
+  {
+    page === 'cases' && (
+      <section class="container page-section">
+        <div class="case-grid all-cases">
+          {projects.map((project) => (
+            <CaseCard project={project} locale={locale} />
+          ))}
+        </div>
+      </section>
+    )
+  }
+  {
+    page === 'sobre' && (
+      <>
+        <section class="container editorial-grid page-section">
+          <>
+            <aside>
+              <>
+                <span class="eyebrow">
+                  01 / {pt ? 'A CONEXÃO' : 'THE CONNECTION'}
+                </span>
+                <h2>
+                  {pt
+                    ? 'A tecnologia é uma parte da resposta.'
+                    : 'Technology is one part of the answer.'}
+                </h2>
+              </>
+            </aside>
+            <div class="prose">
+              <>
+                <p>
+                  {pt
+                    ? 'A Administração me trouxe um olhar sobre processos, eficiência e tomada de decisão. A experiência em operações reforçou a importância de entender o fluxo real do trabalho, incluindo exceções e dependências.'
+                    : 'Business Administration gave me a perspective on processes, efficiency and decision-making. Operational experience reinforced the value of understanding how work actually flows, including exceptions and dependencies.'}
+                </p>
+                <p>
+                  {pt
+                    ? 'No BNDES, comecei pelo desenvolvimento backend em Java e depois aprofundei a qualidade de software com TDD, BDD, Cucumber, Cypress e Gherkin. Na Uello, a trajetória em BI e análise de dados evoluiu para Engenharia de Dados, conectando as necessidades de quem usa informação aos desafios de quem mantém a plataforma.'
+                    : 'At BNDES, I started with Java backend development and then moved deeper into software quality with TDD, BDD, Cucumber, Cypress and Gherkin. At Uello, my path through BI and analytics evolved into Data Engineering, bridging the needs of data consumers and the challenges of maintaining the platform.'}
+                </p>
+                <p>
+                  {pt
+                    ? 'Hoje, meu trabalho envolve decompor problemas, investigar alternativas e construir uma primeira direção técnica. Explicar decisões, documentar, revisar e trabalhar em conjunto são formas de permitir que outras pessoas continuem a implementação.'
+                    : 'My work involves breaking down problems, exploring alternatives and establishing an initial technical direction. Explaining decisions, documenting, reviewing and pairing help other people continue the implementation.'}
+                </p>
+              </>
+            </div>
+          </>
+        </section>
+        <section class="container page-section">
+          <>
+            <p class="eyebrow">
+              02 / {pt ? 'PRINCÍPIOS NA PRÁTICA' : 'PRINCIPLES IN PRACTICE'}
+            </p>
+            <div class="principles-grid">
+              {t.steps.map(([name, body], i) => (
+                <article>
+                  <span class="step-number">0{i + 1}</span>
+                  <h2>{name}</h2>
+                  <p>{body}</p>
+                </article>
+              ))}
+            </div>
+          </>
+        </section>
+      </>
+    )
+  }
+  {
+    page === 'experiencia' && (
+      <>
+        <section class="container page-section">
+          <div class="section-heading">
+            <>
+              <h2>
+                {pt ? 'Experiência profissional' : 'Professional experience'}
+              </h2>
+              <a
+                class="text-link"
+                href={
+                  hasResume
+                    ? profile.resume
+                    : mail(pt ? 'Solicitação de currículo' : 'Résumé request')
+                }
+                download={hasResume || undefined}
+              >
+                {hasResume ? t.cv : t.requestCv} ↗
+              </a>
+            </>
+          </div>
+          <div class="timeline">
+            <article>
+              <>
+                <div>
+                  <>
+                    <span class="eyebrow">
+                      {pt ? 'DADOS & ENGENHARIA' : 'DATA & ENGINEERING'}
+                    </span>
+                    <h3>Uello</h3>
+                    <p class="timeline-date">{pt ? 'set/2021 — atual' : 'Sep 2021 — present'}</p>
+                  </>
+                </div>
+                <div>
+                  <>
+                    <h4>
+                      {pt
+                        ? 'De estágio financeiro a engenharia de dados'
+                        : 'From finance intern to data engineer'}
+                    </h4>
+                    <p>
+                      {pt
+                        ? 'Entrei como estagiário financeiro, migrei para dados um mês depois e avancei até Engenharia de Dados, atuando em ingestão, transformação, orquestração e analytics integrado ao produto.'
+                        : 'I joined as a finance intern, moved to data one month later and progressed into Data Engineering, working across ingestion, transformation, orchestration and in-product analytics.'}
+                    </p>
+                    <ul>
+                      {(pt
+                        ? [
+                            'Progressão: estágio financeiro, estágio de dados, analista júnior (nov/2022), pleno (out/2024) e engenheiro (fev/2025).',
+                            'Desenho e evolução de pipelines em GCP e BigQuery.',
+                            'Modernização com Dataform, documentação de regras e responsabilidades entre camadas.',
+                            'Construção de MVPs, revisão técnica e apoio ao time para desenvolver soluções.',
+                            'Alinhamento com Produto, Engenharia e Operações.',
+                          ]
+                        : [
+                            'Progression: finance intern, data intern, junior analyst (Nov 2022), mid-level analyst (Oct 2024) and data engineer (Feb 2025).',
+                            'Designing and evolving pipelines on GCP and BigQuery.',
+                            'Modernizing with Dataform, documenting rules and defining layer ownership.',
+                            'Building MVPs, reviewing code and helping teammates deliver solutions.',
+                            'Working across Product, Engineering and Operations.',
+                          ]
+                      ).map((item) => (
+                        <li>{item}</li>
+                      ))}
+                    </ul>
+                    <a class="text-link" href={`${base}cases/`}>
+                      {t.work} ↗
+                    </a>
+                  </>
+                </div>
+              </>
+            </article>
+            <article>
+              <>
+                <div>
+                  <>
+                    <span class="eyebrow">
+                      {pt ? 'DESENVOLVIMENTO' : 'DEVELOPMENT'}
+                    </span>
+                    <h3>BNDES</h3>
+                    <p class="timeline-date">{pt ? 'jan/2020 — jul/2021' : 'Jan 2020 — Jul 2021'}</p>
+                  </>
+                </div>
+                <div>
+                  <>
+                    <h4>
+                      {pt
+                        ? 'Desenvolvimento e automação de testes'
+                        : 'Development and test automation'}
+                    </h4>
+                    <p>
+                      {pt
+                        ? 'Comecei com backend e análise de sistemas em Java. Depois migrei para testes com TDD e BDD em Cucumber e, mais tarde, Cypress com Gherkin para automação de telas. Implementei os primeiros cenários e parte das telas do sistema junto ao time.'
+                        : 'I started with Java backend development and systems analysis. I then moved to TDD and BDD with Cucumber and later to Cypress with Gherkin for front-end automation, implementing the first scenarios and part of the system screens with the team.'}
+                    </p>
+                  </>
+                </div>
+              </>
+            </article>
+            <article>
+              <>
+                <div>
+                  <>
+                    <span class="eyebrow">
+                      {pt ? 'OPERAÇÕES' : 'OPERATIONS'}
+                    </span>
+                    <h3>GOL</h3>
+                    <p class="timeline-date">{pt ? 'dez/2017 — jan/2022' : 'Dec 2017 — Jan 2022'}</p>
+                  </>
+                </div>
+                <div>
+                  <>
+                    <h4>
+                      {pt
+                        ? 'Atendimento ao cliente em aeroportos'
+                        : 'Airport customer service'}
+                    </h4>
+                    <p>
+                      {pt
+                        ? 'Atendimento ao cliente do check-in ao desembarque, incluindo casos de contingência e comunicação direta durante a jornada aeroportuária.'
+                        : 'Customer service from check-in through disembarkation, including contingency cases and direct communication throughout the airport journey.'}
+                    </p>
+                  </>
+                </div>
+              </>
+            </article>
+            <article>
+              <>
+                <div>
+                  <span class="eyebrow">{pt ? 'ADMINISTRAÇÃO' : 'ADMINISTRATION'}</span>
+                  <h3>Santander</h3>
+                  <p class="timeline-date">{pt ? 'ago/2014 — jan/2016' : 'Aug 2014 — Jan 2016'}</p>
+                </div>
+                <div>
+                  <h4>{pt ? 'Relatórios e automação regional' : 'Regional reporting and automation'}</h4>
+                  <p>
+                    {pt
+                      ? 'Criação de relatórios e modelos para a Superintendência Regional, com dados de vendas, metas, resultados e orçamentos das agências. Automatizei em macros e VBA a consolidação da planilha extensa de resultados para facilitar a leitura dos gerentes gerais e regionais.'
+                      : 'Created reports and models for the Regional Office using branch sales, targets, results and budgets. I automated the consolidation of a large results workbook with macros and VBA to make information easier for branch and regional managers to read.'}
+                  </p>
+                </div>
+              </>
+            </article>
+          </div>
+        </section>
+        <section class="container editorial-grid page-section">
+          <>
+            <div>
+              <>
+                <p class="eyebrow">{pt ? 'FORMAÇÃO' : 'EDUCATION'}</p>
+                <h2>
+                  {pt
+                    ? 'Negócio e tecnologia na mesma base.'
+                    : 'Business and technology, together.'}
+                </h2>
+              </>
+            </div>
+            <div class="education">
+              <>
+                <article>
+                  <>
+                    <h3>
+                      {pt
+                        ? 'Graduação em Administração'
+                        : 'Degree in Business Administration'}
+                    </h3>
+                    <p>
+                      {pt
+                        ? 'Estácio · 2012–2015 · processos, operação, eficiência e tomada de decisão.'
+                        : 'Estácio · 2012–2015 · processes, operations, efficiency and decision-making.'}
+                    </p>
+                  </>
+                </article>
+                <article>
+                  <>
+                    <h3>
+                      {pt
+                        ? 'Pós-graduação em Análise de Dados'
+                        : 'Postgraduate studies in Data Analytics'}
+                    </h3>
+                    <p>
+                      {pt
+                        ? 'Descomplica · concluída em 2022 · uma ponte entre perguntas de negócio e análise da informação.'
+                        : 'Descomplica · completed in 2022 · a bridge between business questions and information analysis.'}
+                    </p>
+                  </>
+                </article>
+                <article>
+                  <>
+                    <h3>{pt ? 'Sistemas de Informação' : 'Information Systems'}</h3>
+                    <p>{pt ? 'UFF · curso interrompido antes da conclusão.' : 'UFF · degree interrupted before completion.'}</p>
+                  </>
+                </article>
+              </>
+            </div>
+          </>
+        </section>
+        <section class="container page-section">
+          <>
+            <p class="eyebrow">
+              {pt ? 'COMPETÊNCIAS APLICADAS' : 'APPLIED CAPABILITIES'}
+            </p>
+            <h2>
+              {pt
+                ? 'Ferramentas a serviço do contexto.'
+                : 'Tools chosen for the context.'}
+            </h2>
+            <div class="skills-grid">
+              {(pt
+                ? [
+                    ['Plataformas de dados', 'GCP · BigQuery · Cloud Storage'],
+                    [
+                      'Transformação e modelagem',
+                      'SQL · Dataform · dbt · Bronze / Silver / Gold',
+                    ],
+                    [
+                      'Ingestão e orquestração',
+                      'Datastream · CDC · Airflow · APIs',
+                    ],
+                    [
+                      'Desenvolvimento e produto',
+                      'Python · Streamlit · Git · Docker',
+                    ],
+                    [
+                      'Qualidade e governança',
+                      'Documentação · Revisão de código · Responsabilidades',
+                    ],
+                    [
+                      'Visualização e análise',
+                      'Looker Studio · Metabase · Power BI',
+                    ],
+                  ]
+                : [
+                    ['Data platforms', 'GCP · BigQuery · Cloud Storage'],
+                    [
+                      'Transformation and modeling',
+                      'SQL · Dataform · dbt · Bronze / Silver / Gold',
+                    ],
+                    [
+                      'Ingestion and orchestration',
+                      'Datastream · CDC · Airflow · APIs',
+                    ],
+                    [
+                      'Development and product',
+                      'Python · Streamlit · Git · Docker',
+                    ],
+                    [
+                      'Quality and governance',
+                      'Documentation · Code review · Ownership',
+                    ],
+                    [
+                      'Visualization and analytics',
+                      'Looker Studio · Metabase · Power BI',
+                    ],
+                  ]
+              ).map(([name, detail]) => (
+                <article>
+                  <h3>{name}</h3>
+                  <p>{detail}</p>
+                </article>
+              ))}
+            </div>
+          </>
+        </section>
+      </>
+    )
+  }
+  {
+    page === 'servicos' && (
+      <>
+        <section class="container pain-grid page-section">
+          {(pt
+            ? [
+                'A equipe passa horas atualizando planilhas?',
+                'Ninguém sabe exatamente onde está o gargalo?',
+                'Os dados existem, mas não ajudam a decidir?',
+              ]
+            : [
+                'Does your team spend hours updating spreadsheets?',
+                'Is it hard to pinpoint the bottleneck?',
+                'Do you have data that does not help you decide?',
+              ]
+          ).map((pain, i) => (
+            <article>
+              <span class="eyebrow">0{i + 1}</span>
+              <h2>{pain}</h2>
+            </article>
+          ))}
+        </section>
+        <section class="method-section">
+          <div class="container editorial-grid">
+            <>
+              <div>
+                <>
+                  <p class="eyebrow">
+                    {pt ? '01 / DIAGNÓSTICO' : '01 / PROCESS DISCOVERY'}
+                  </p>
+                  <h2>
+                    {pt
+                      ? 'Clareza para escolher o próximo passo.'
+                      : 'Clarity to choose the next step.'}
+                  </h2>
+                </>
+              </div>
+              <div>
+                <>
+                  <p>
+                    {pt
+                      ? 'Para pequenas e médias empresas que já sentem a dor, mas ainda precisam estruturar a solução. O diagnóstico pode ser contratado separadamente: você recebe um material que pode executar comigo, com seu time ou com outro fornecedor.'
+                      : 'For small and medium businesses that feel the friction but need help defining the solution. Discovery is a standalone engagement: you receive material you can use with me, your team or another provider.'}
+                  </p>
+                  <ol class="delivery-list">
+                    {(pt
+                      ? [
+                          'Entrevistas e entendimento da operação.',
+                          'Mapa do processo atual (AS-IS), gargalos, retrabalho e desperdícios.',
+                          'Oportunidades e desenho do processo futuro (TO-BE).',
+                          'Matriz de priorização, recomendações e roadmap.',
+                        ]
+                      : [
+                          'Interviews and an understanding of the operation.',
+                          'Current process map (AS-IS), bottlenecks, rework and waste.',
+                          'Opportunities and a future process design (TO-BE).',
+                          'Prioritization matrix, recommendations and a roadmap.',
+                        ]
+                    ).map((item) => (
+                      <li>{item}</li>
+                    ))}
+                  </ol>
+                </>
+              </div>
+            </>
+          </div>
+        </section>
+        <section class="container editorial-grid page-section">
+          <>
+            <div>
+              <>
+                <p class="eyebrow">
+                  {pt ? '02 / PRIORIZAÇÃO' : '02 / PRIORITIZATION'}
+                </p>
+                <h2>
+                  {pt
+                    ? 'A decisão é sua. A clareza construímos juntos.'
+                    : 'Your decision. Clarity we build together.'}
+                </h2>
+              </>
+            </div>
+            <div class="prose">
+              <>
+                <p>
+                  {pt
+                    ? 'A matriz considera impacto, esforço, urgência, risco, custo, dependências, tempo economizado e potencial de retorno. A prioridade estratégica da empresa também faz parte da decisão.'
+                    : 'The matrix considers impact, effort, urgency, risk, cost, dependencies, time saved and potential return. Your company’s strategic priorities shape the final decision.'}
+                </p>
+                <p>
+                  {pt
+                    ? 'Meu papel é organizar as alternativas e seus trade-offs para que você consiga tomar uma decisão melhor, sem criar dependência de um fornecedor.'
+                    : 'My role is to organize the options and their trade-offs so you can make a better decision without becoming dependent on a provider.'}
+                </p>
+              </>
+            </div>
+          </>
+        </section>
+        <section class="container editorial-grid page-section">
+          <>
+            <div>
+              <>
+                <p class="eyebrow">
+                  {pt
+                    ? '03 / IMPLEMENTAÇÃO OPCIONAL'
+                    : '03 / OPTIONAL IMPLEMENTATION'}
+                </p>
+                <h2>{pt ? 'Só então, construir.' : 'Then, build.'}</h2>
+              </>
+            </div>
+            <div class="prose">
+              <>
+                <p>
+                  {pt
+                    ? 'Depois de entender, questionar e simplificar o processo, a implementação pode envolver automação, integração de sistemas, pipelines, aplicações e infraestrutura. A escolha técnica acompanha o ganho de produtividade, confiabilidade e capacidade de crescimento.'
+                    : 'After understanding, questioning and simplifying the process, implementation can include automation, system integration, pipelines, applications and infrastructure. Technical choices follow productivity, reliability and growth needs.'}
+                </p>
+                <p>
+                  {pt
+                    ? 'O objetivo é reduzir trabalho repetitivo e devolver tempo às pessoas para analisar, decidir e resolver problemas. A solução evolui de forma incremental, com medição e aprendizado.'
+                    : 'The goal is to reduce repetitive work and give people time to analyze, decide and solve problems. The solution evolves incrementally through measurement and learning.'}
+                </p>
+                <details class="scope">
+                  <>
+                    <summary>
+                      {pt
+                        ? 'O que está dentro do meu escopo?'
+                        : 'What is within my scope?'}
+                    </summary>
+                    <p>
+                      {pt
+                        ? 'Processos, dados, automação e tecnologia. Se o diagnóstico identificar questões de cultura, RH, jurídico, contabilidade ou outras disciplinas especializadas, a recomendação será buscar o profissional adequado.'
+                        : 'Processes, data, automation and technology. If discovery reveals issues in culture, HR, legal, accounting or other specialist disciplines, I recommend involving the appropriate professional.'}
+                    </p>
+                  </>
+                </details>
+              </>
+            </div>
+          </>
+        </section>
+        <section class="container service-contact">
+          <>
+            <h2>
+              {pt
+                ? 'Não precisa chegar com a solução pronta.'
+                : 'You do not need to arrive with a solution.'}
+            </h2>
+            <p>
+              {pt
+                ? 'Começamos pela conversa e pelo que hoje dificulta sua operação.'
+                : 'We start with a conversation about what is making your operation difficult.'}
+            </p>
+            <a
+              class="button button-dark"
+              href={mail(
+                pt
+                  ? 'Conversa inicial — diagnóstico de processos'
+                  : 'Initial conversation — process discovery',
+              )}
+            >
+              {pt
+                ? 'Marcar uma conversa inicial'
+                : 'Arrange an initial conversation'}{' '}
+              ↗
+            </a>
+          </>
+        </section>
+      </>
+    )
+  }
+  {
+    page === 'contato' && (
+      <section class="container page-section">
+        <>
+          <div class="contact-grid">
+            <>
+              <article>
+                <>
+                  <p class="eyebrow">
+                    {pt
+                      ? 'PARA RECRUTADORES E TIMES'
+                      : 'FOR RECRUITERS AND TEAMS'}
+                  </p>
+                  <h2>
+                    {pt ? 'Vamos construir juntos.' : 'Let’s build together.'}
+                  </h2>
+                  <p>
+                    {pt
+                      ? 'Conte sobre o time, o desafio e o contexto da oportunidade. Podemos conversar sobre minha experiência e como posso contribuir.'
+                      : 'Tell me about your team, the challenge and the opportunity. We can discuss my experience and how I can contribute.'}
+                  </p>
+                  <a
+                    class="button button-dark"
+                    href={mail(
+                      pt ? 'Oportunidade profissional' : 'Career opportunity',
+                    )}
+                  >
+                    {pt
+                      ? 'Conversar sobre uma oportunidade'
+                      : 'Discuss an opportunity'}{' '}
+                    ↗
+                  </a>
+                  <a
+                    class="text-link"
+                    href={
+                      hasResume
+                        ? profile.resume
+                        : mail(
+                            pt ? 'Solicitação de currículo' : 'Résumé request',
+                          )
+                    }
+                    download={hasResume || undefined}
+                  >
+                    {hasResume ? t.cv : t.requestCv} ↗
+                  </a>
+                </>
+              </article>
+              <article>
+                <>
+                  <p class="eyebrow">
+                    {pt ? 'PARA SUA EMPRESA' : 'FOR YOUR BUSINESS'}
+                  </p>
+                  <h2>
+                    {pt
+                      ? 'Vamos entender o problema.'
+                      : 'Let’s understand the problem.'}
+                  </h2>
+                  <p>
+                    {pt
+                      ? 'Conte como funciona sua operação, onde sente mais dificuldade e o que gostaria de melhorar. A conversa inicial é o ponto de partida para avaliar um diagnóstico.'
+                      : 'Share how your operation works, where it struggles and what you want to improve. An initial conversation helps us assess a discovery engagement.'}
+                  </p>
+                  <a
+                    class="button button-dark"
+                    href={mail(
+                      pt
+                        ? 'Conversa inicial — diagnóstico de processos'
+                        : 'Initial conversation — process discovery',
+                    )}
+                  >
+                    {pt
+                      ? 'Marcar uma conversa inicial'
+                      : 'Arrange an initial conversation'}{' '}
+                    ↗
+                  </a>
+                  <a class="text-link" href={`${base}servicos/`}>
+                    {t.serviceCta} →
+                  </a>
+                </>
+              </article>
+            </>
+          </div>
+          <div class="contact-direct">
+            <>
+              <div>
+                <>
+                  <span class="eyebrow">
+                    {pt
+                      ? 'PREFERE FALAR DIRETAMENTE?'
+                      : 'PREFER A DIRECT CONVERSATION?'}
+                  </span>
+                  <a class="email-link" href={`mailto:${profile.email}`}>
+                    {profile.email}
+                  </a>
+                </>
+              </div>
+              <div class="footer-links">
+                <>
+                  <a href={profile.linkedin}>LinkedIn ↗</a>
+                  <a href={profile.github}>GitHub ↗</a>
+                </>
+              </div>
+            </>
+          </div>
+          <p class="small-note">
+            {pt
+              ? 'Os botões de contato abrem seu aplicativo de e-mail. Você também pode copiar o endereço acima ou conversar pelo LinkedIn.'
+              : 'Contact buttons open your email app. You can also copy the address above or reach out on LinkedIn.'}
+          </p>
+        </>
+      </section>
+    )
+  }
+  {page !== 'contato' && page !== 'servicos' && <Closing locale={locale} />}
+</Layout>

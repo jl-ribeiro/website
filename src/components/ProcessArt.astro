@@ -1,0 +1,82 @@
+---
+import type { Locale } from '../data/profile';
+interface Props {
+  locale: Locale;
+  compact?: boolean;
+  variant?: string;
+}
+const { locale, compact = false, variant = 'ingestion' } = Astro.props;
+const pt = locale === 'pt';
+---
+
+<div
+  class:list={['process-art', compact && 'compact', `art-${variant}`]}
+  aria-hidden="true"
+>
+  <div class="art-top">
+    <span
+      >{
+        compact
+          ? pt
+            ? 'VISÃO DA SOLUÇÃO'
+            : 'SOLUTION OVERVIEW'
+          : pt
+            ? 'DO CONTEXTO À CLAREZA'
+            : 'FROM CONTEXT TO CLARITY'
+      }</span
+    ><span>↗</span>
+  </div>
+  <div class="art-canvas">
+    <svg viewBox="0 0 480 310" fill="none"
+      ><defs
+        ><pattern
+          id={`grid-${compact}-${variant}`}
+          width="24"
+          height="24"
+          patternUnits="userSpaceOnUse"
+          ><circle cx="1" cy="1" r="1" fill="currentColor" opacity=".22"
+          ></circle></pattern
+        ></defs
+      ><rect width="480" height="310" fill={`url(#grid-${compact}-${variant})`}
+      ></rect>
+      <g stroke="currentColor" stroke-width="1.4" opacity=".45"
+        ><path
+          d="M30 65C135 65 100 156 232 156M30 151C135 151 110 156 232 156M30 242C135 242 105 156 232 156"
+        ></path><path d="M242 156H315V65H429M242 156H429M242 156H315V242H429"
+        ></path></g
+      >
+      <g fill="currentColor"
+        ><circle cx="30" cy="65" r="5"></circle><circle cx="30" cy="151" r="5"
+        ></circle><circle cx="30" cy="242" r="5"></circle></g
+      >
+      <rect x="191" y="112" width="88" height="88" rx="20" fill="#c6dc9d"
+      ></rect><path
+        d="m216 146 19-11 20 11-20 12-19-12Zm0 11 19 12 20-12m-39 12 19 12 20-12"
+        stroke="#234c3c"
+        stroke-width="2"
+        stroke-linejoin="round"></path>
+      <g fill="#f6f5ef" stroke="currentColor" stroke-opacity=".4"
+        ><rect x="348" y="43" width="106" height="44" rx="7"></rect><rect
+          x="348"
+          y="134"
+          width="106"
+          height="44"
+          rx="7"></rect><rect x="348" y="220" width="106" height="44" rx="7"
+        ></rect></g
+      >
+      <g stroke="#477358" stroke-width="3" stroke-linecap="round"
+        ><path
+          d="M365 59h53m-53 10h34M365 150h53m-53 10h34M365 237h53m-53 10h34"
+        ></path></g
+      >
+    </svg>
+    <span class="art-label input">{pt ? 'Contexto' : 'Context'}</span><span
+      class="art-label middle">{pt ? 'Estrutura' : 'Structure'}</span
+    ><span class="art-label output">{pt ? 'Clareza' : 'Clarity'}</span>
+  </div>
+  <div class="art-bottom">
+    <span class="status-dot"></span>{
+      pt ? 'Entender. Conectar. Construir.' : 'Understand. Connect. Build.'
+    }<span class="art-index">01 — 04</span>
+  </div>
+</div>

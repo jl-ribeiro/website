@@ -1,0 +1,78 @@
+---
+import type { Project } from '../data/projects';
+import type { Locale } from '../data/profile';
+import { translations } from '../i18n';
+interface Props {
+  project: Project;
+  locale: Locale;
+}
+const { project, locale } = Astro.props;
+const copy = project.copy[locale];
+const t = translations[locale];
+---
+
+<article class={`case-card card-${project.type}`}>
+  <div class="case-topline">
+    <span class="eyebrow">{copy.category}</span><span class="case-number"
+      >/{project.number}</span
+    >
+  </div>
+  <div class={`case-visual visual-${project.type}`} aria-hidden="true">
+    {
+      project.type === 'ingestion' ? (
+        <>
+          <>
+            <span class="diagram-box">SOURCE</span>
+            <span class="diagram-line" />
+            <span class="diagram-core">↳</span>
+            <span class="diagram-line" />
+            <span class="diagram-box">DATA</span>
+          </>
+        </>
+      ) : project.type === 'layers' ? (
+        <>
+          <>
+            <span class="layer layer-one">BRONZE</span>
+            <span class="layer layer-two">SILVER</span>
+            <span class="layer layer-three">GOLD</span>
+          </>
+        </>
+      ) : project.type === 'product' ? (
+        <div class="mini-window">
+          <>
+            <div class="window-dots">● ● ●</div>
+            <div class="mini-chart">
+              <>
+                <i />
+                <i />
+                <i />
+                <i />
+                <i />
+                <i />
+                <i />
+              </>
+            </div>
+          </>
+        </div>
+      ) : (
+        <>
+          <>
+            <span class="process-node">01</span>
+            <span class="diagram-line" />
+            <span class="process-node">02</span>
+            <span class="diagram-line" />
+            <span class="process-node">03</span>
+          </>
+        </>
+      )
+    }
+  </div>
+  {project.inProgress && <span class="progress-tag">{t.progress}</span>}
+  <h3><a href={`/${locale}/projetos/${project.slug}/`}>{copy.title}</a></h3>
+  <p>{copy.summary}</p>
+  <div class="case-bottom">
+    <span>{copy.outcome}</span><span class="circle-arrow" aria-hidden="true"
+      >↗</span
+    >
+  </div>
+</article>
