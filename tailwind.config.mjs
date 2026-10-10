@@ -1,3 +1,5 @@
+import typography from '@tailwindcss/typography';
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
@@ -14,12 +16,7 @@ export default {
         },
       },
       fontFamily: {
-        sans: [
-          'Outfit',
-          'ui-sans-serif',
-          'system-ui',
-          'sans-serif',
-        ],
+        sans: ['Outfit', 'ui-sans-serif', 'system-ui', 'sans-serif'],
         mono: [
           '"IBM Plex Mono"',
           'ui-monospace',
@@ -33,5 +30,5 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [typography],
 };

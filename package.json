@@ -13,7 +13,8 @@
     "astro": "astro",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "typecheck": "astro check"
+    "typecheck": "astro check",
+    "test:site": "node --test tests/site.test.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.2",
@@ -26,6 +27,7 @@
     "@astrojs/check": "^0.9.9",
     "@eslint/js": "^10.0.1",
     "@iconify-json/mdi": "^1.2.3",
+    "@tailwindcss/typography": "^0.5.20",
     "@typescript-eslint/parser": "^8.59.4",
     "astro-eslint-parser": "^1.4.0",
     "eslint": "^10.4.0",

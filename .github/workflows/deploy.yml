@@ -18,11 +18,11 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Lint
         run: npm run lint
@@ -32,6 +32,9 @@ jobs:
 
       - name: Build project
         run: npm run build
+
+      - name: Validate generated pages
+        run: npm run test:site
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4

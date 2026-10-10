@@ -2,16 +2,23 @@
 // Google Analytics 4 - carrega apenas em produção
 const GA_MEASUREMENT_ID = 'G-MEMXJ444RW';
 const isProd = import.meta.env.PROD;
+const analyticsScript = `
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', '${GA_MEASUREMENT_ID}');
+`;
 ---
 
-{isProd && (
-  <>
-    <script is:inline src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}></script>
-    <script is:inline define:vars={{ GA_MEASUREMENT_ID }}>
-      window.dataLayer = window.dataLayer || [];
-       function gtag(){window.dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', GA_MEASUREMENT_ID);
-    </script>
-  </>
-)}
+{
+  isProd && (
+    <>
+      <script
+        is:inline
+        async
+        src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+      />
+      <script is:inline set:html={analyticsScript} />
+    </>
+  )
+}

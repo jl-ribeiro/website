@@ -17,12 +17,12 @@ export default defineConfig({
     sitemap(),
   ],
 
-  // 2. CONFIGURAÇÃO DE i18n LIMPA
+  // Preserve localized routes; Portuguese is the primary language.
   i18n: {
-    defaultLocale: 'en',
+    defaultLocale: 'pt',
     locales: ['en', 'pt'],
     routing: {
-      prefixDefaultLocale: true, // <-- ALTERADO AQUI
+      prefixDefaultLocale: true,
     },
   },
 });

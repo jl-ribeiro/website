@@ -1,142 +1,48 @@
-<p align="center">
-  <a href="[coloque seu domínio aqui]" rel="noopener">
-    <img width=150px height=150px src="https://cdn-icons-png.flaticon.com/512/2344/2344721.png" alt="Portfolio website">
-  </a>
-</p>
+# Jair Ribeiro — portfólio profissional
 
-### <p align="center">Jair Ribeiro's Portfolio Website</p>
+Reformulação visual e editorial em Astro, com português e inglês, seis estudos de caso e jornadas para recrutamento e consultoria.
 
-<div align="center">
+## Auditoria da base
 
-[![Status](https://img.shields.io/badge/status-active-success.svg)]()  
-[![Build and Deploy](https://github.com/jl-ribeiro/website/actions/workflows/deploy.yml/badge.svg)](https://github.com/jl-ribeiro/website/actions/workflows/deploy.yml)  
-[![GitHub Issues](https://img.shields.io/github/issues/jl-ribeiro/website.svg)](https://github.com/jl-ribeiro/website/issues)  
-![Último Commit](https://img.shields.io/github/last-commit/jl-ribeiro/website)  
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+A pasta de destino estava vazia. O projeto original foi encontrado em `C:/git/website`, com alterações locais que foram respeitadas e não modificadas. Base: Astro 5, Tailwind 3, astro-icon, sitemap, ESLint, Prettier e checagem Astro/TypeScript. O original tinha homes PT/EN com âncoras, cinco rotas de projetos, layout escuro com grafos, Google Fonts, GA4 e publicação em GitHub Pages.
 
-</div>
+Problemas identificados: ausência do PDF de currículo; referências a diagramas inexistentes; links GitHub de projetos com `#`; conteúdo numérico e formação conflitantes; home extensa; prioridade para inglês; visual técnico que não atendia à nova direção. O novo layout substitui grafos animados por hierarquia editorial e diagramas conceituais leves. Conteúdo continua disponível sem JavaScript, inclusive menu móvel e detalhes dos serviços.
 
----
+## Executar
 
-## <p align="center">Link para o acesso ao site em produção: <a href="https://jairribeiro.dev/">https://jairribeiro.dev/</a></p>
-
-<p align="center"> 
-    Este repositório contém o código-fonte do meu portfólio pessoal de engenharia de dados.  
-    <br>  
-    O site é uma landing page moderna e de alta performance, construída com Astro e Tailwind CSS, e implantada automaticamente via GitHub Actions.
-</p>
-
-## 📝 Tabela de Conteúdos
-
-- [Sobre o Projeto](#about)
-- [Começando](#getting_started)
-- [Deploy](#deployment)
-- [Segurança](#security)
-- [Analytics](#analytics)
-- [Tecnologias Utilizadas](#built_using)
-- [Autor](#authors)
-
-## 🧐 Sobre o Projeto <a name = "about"></a>
-
-Este projeto foi criado com o objetivo de ser um hub central para meus projetos, competências e informações de contato.  
-A escolha por construir o site do zero com **Astro** foi deliberada para garantir máxima performance, excelente SEO e uma experiência de desenvolvimento moderna.
-
-O site é totalmente estático, o que o torna extremamente rápido e seguro.  
-Todo o processo de build e deploy é automatizado através de um pipeline de CI/CD, garantindo que qualquer atualização no código seja publicada em produção de forma rápida e confiável.
-
-## 🏁 Começando <a name = "getting_started"></a>
-
-Estas instruções permitirão que você obtenha uma cópia do projeto e a execute em sua máquina local para fins de desenvolvimento e teste.
-
-### Pré-requisitos
-
-Você precisará do **Node.js** e do **npm** instalados em sua máquina.  
-Recomendo usar o `nvm` (Node Version Manager) para gerenciar as versões do Node.
-
-```bash
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
-```
-
-### Instalar a versão LTS do Node.js
-
-```bash
-nvm install --lts
-```
-
-# Instalação
-
-Clone o repositório:
-
-```bash
-git clone https://github.com/jl-ribeiro/website.git
-```
-
-Navegue até a pasta do projeto:
-
-```bash
-cd website
-```
-
-Instale as dependências do projeto:
-
-```bash
-npm install
-```
-
-Inicie o servidor de desenvolvimento:
-
-```bash
+```sh
+npm ci
 npm run dev
 ```
 
-Após executar o último comando, o site estará disponível em http://localhost:4321 e será atualizado automaticamente sempre que você salvar uma alteração nos arquivos.
+Acesse `http://localhost:4321/pt/`. Também há tarefas do VS Code para build e servidor.
 
-🚀 Automação e Deploy <a name = "deployment"></a>
+```sh
+npm run lint
+npm run typecheck
+npm run build
+npm run test:site
+npm run preview
+```
 
-O processo de publicação do site é 100% automatizado usando GitHub Actions e a integração Git da Hostinger, uma abordagem conhecida como Git-based deployment.
+`test:site` verifica os arquivos de `dist`, após o build. Use a versão Node 22 do workflow ou uma versão compatível com as dependências do lockfile.
 
-Fluxo:
+## Organização
 
-Um git push é feito na branch master (ou main).
+- [Layout](src/layouts/Layout.astro): navegação, idiomas, SEO, dados estruturados, rodapé.
+- [Componentes](src/components): home, cards, diagrama conceitual, contato final e analytics preservado.
+- [Conteúdo dos cases](src/data/projects.ts): seis cases PT/EN e status de andamento.
+- [Perfil](src/data/profile.ts): contatos originados do projeto existente.
+- [Traduções](src/i18n): conteúdo compartilhado das duas versões.
+- [Páginas](src/pages): `/pt/` e `/en/`, cada qual com `sobre/`, `experiencia/`, `cases/`, `servicos/` e `contato/`.
+- [Cases individuais](src/pages/[lang]/projetos/[slug].astro): conserva os slugs originais e inclui `sla-logistico`.
+- [Estilos](src/styles/global.css): sistema visual responsivo, foco visível, movimento reduzido e impressão.
+- [Pendências editoriais](docs/EDITORIAL.md): fatos que precisam de confirmação.
 
-O workflow do GitHub Actions, definido em [deploy.yml](.github/workflows/deploy.yml), é acionado.
+## Publicação
 
-O runner executa os seguintes passos:
+Saída estática em `dist/`. O domínio original continua em `astro.config.mjs`; canonicals, alternates, sitemap e robots usam `https://jairribeiro.dev`. O workflow mantém a publicação na branch `deploy` com GitHub Pages, agora com `npm ci`, validações e teste dos links gerados. A publicação exige o repositório GitHub e Pages configurados; este trabalho não publicou o site.
 
-Baixa o código-fonte.
+Analytics mantém o ID original `G-MEMXJ444RW` e só carrega em builds de produção. Veja [documentação de analytics](docs/ANALYTICS.md).
 
-Instala as dependências com `npm install`.
-
-Gera o site estático otimizado em `dist/` com `npm run build`.
-
-Usa a ação `peaceiris/actions-gh-pages` para fazer um force push do conteúdo de `dist/` para a branch `deploy`. Essa branch passa a conter apenas os arquivos estáticos do site, mantendo um histórico limpo de cada build que foi gerado.
-
-A integração Git configurada na Hostinger detecta a atualização na branch `deploy` e automaticamente "puxa" os arquivos para o diretório `public_html`, publicando o site ao vivo.
-
-Este fluxo garante que o ambiente de produção do site seja sempre um espelho exato da branch de deploy, tornando o processo robusto, rastreável e à prova de falhas manuais.
-
-## 🔒 Segurança <a name = "security"></a>
-
-O site é estático (sem backend nem formulários que enviem dados a servidor), o que reduz superfície de ataque. Boas práticas aplicadas:
-
-- **Links externos** que abrem em nova aba (`target="_blank"`) usam `rel="noopener noreferrer"` para evitar tab-nabbing.
-- **CI/CD** usa apenas `GITHUB_TOKEN` (secret padrão do GitHub) para publicar na branch `deploy`; não há secrets de aplicação no código.
-- **Conteúdo** é gerado em build a partir de dados em `src/data` e `src/i18n`; não há entrada de usuário que seja refletida no HTML (sem risco de XSS por conteúdo dinâmico).
-- **Headers de segurança** (CSP, HSTS, etc.): não são configurados no código; se o host (ex.: Hostinger) permitir, vale configurá-los no servidor para reforçar a segurança.
-
-## 📊 Analytics <a name = "analytics"></a>
-
-Para rastrear visitas e eventos quando o site estiver em produção, consulte **[docs/ANALYTICS.md](docs/ANALYTICS.md)**. O guia cobre integração com Google Analytics 4 ou Plausible, variáveis de ambiente e sugestões de eventos úteis para o portfólio.
-
-⛏️ Tecnologias Utilizadas <a name = "built_using"></a>
-
-Astro - Framework para Sites Estáticos
-
-Tailwind CSS - Framework CSS
-
-Node.js - Ambiente de Execução
-
-GitHub Actions - Automação de CI/CD
-
-✍️ Autor<a name = "authors"></a>:
-@jl-ribeiro
+Não há backend de formulário: os CTAs abrem e-mail com assunto correspondente à jornada, e também há acesso direto ao LinkedIn. Para habilitar download de currículo, adicionar `public/CV_Jair_Ribeiro.pdf` e gerar novo build.

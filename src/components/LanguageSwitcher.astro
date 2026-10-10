@@ -1,41 +1,25 @@
 ---
-// src/components/LanguageSwitcher.astro
-
-const { pathname } = Astro.url;
-
-// Lógica simplificada: remove /en ou /pt do início para pegar o caminho base
-const basePath = pathname.replace(/^\/(en|pt)/, '');
-
-const enPath = `/en${basePath}`;
-const ptPath = `/pt${basePath}`;
-
-const currentLocale = Astro.currentLocale;
+import { getLocale } from '../i18n';
+const locale = getLocale(Astro.currentLocale);
+const rest = Astro.url.pathname.startsWith('/404')
+  ? '/'
+  : Astro.url.pathname.replace(/^\/(pt|en)/, '') || '/';
 ---
 
-<div class="flex items-center gap-3 text-sm">
+<nav class="language" aria-label={locale === 'pt' ? 'Idioma' : 'Language'}>
   <a
-    href={ptPath}
-    class:list={[
-      'transition',
-      currentLocale === 'pt'
-        ? 'text-cyan-300 font-semibold'
-        : 'text-slate-400 hover:text-cyan-200',
-    ]}
+    href={`/pt${rest}`}
+    lang="pt-BR"
+    hreflang="pt-BR"
+    aria-label="Português"
+    aria-current={locale === 'pt' ? 'page' : undefined}>PT</a
   >
-    PT
-  </a>
-
-  <div class="w-px h-4 bg-white/15"></div>
-
+  <span aria-hidden="true">/</span>
   <a
-    href={enPath}
-    class:list={[
-      'transition',
-      currentLocale === 'en'
-        ? 'text-cyan-300 font-semibold'
-        : 'text-slate-400 hover:text-cyan-200',
-    ]}
+    href={`/en${rest}`}
+    lang="en"
+    hreflang="en"
+    aria-label="English"
+    aria-current={locale === 'en' ? 'page' : undefined}>EN</a
   >
-    EN
-  </a>
-</div>
+</nav>
