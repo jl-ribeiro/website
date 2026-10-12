@@ -5,6 +5,17 @@ import astroParser from 'astro-eslint-parser';
 
 export default [
   eslint.configs.recommended,
+  {
+    files: ['scripts/*.mjs'],
+    languageOptions: {
+      globals: {
+        process: 'readonly',
+        fetch: 'readonly',
+        console: 'readonly',
+        URL: 'readonly',
+      },
+    },
+  },
   ...astroPlugin.configs['flat/recommended'],
   {
     ignores: ['node_modules/', 'dist/', '.astro/', 'public/'],

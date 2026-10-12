@@ -14,7 +14,8 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "typecheck": "astro check",
-    "test:site": "node --test tests/site.test.mjs"
+    "test:site": "node --test tests/site.test.mjs",
+    "indexnow": "node scripts/indexnow.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.2",

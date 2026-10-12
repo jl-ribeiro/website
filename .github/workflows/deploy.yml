@@ -32,6 +32,9 @@ jobs:
 
       - name: Build project
         run: npm run build
+        env:
+          PUBLIC_GOOGLE_SITE_VERIFICATION: ${{ vars.PUBLIC_GOOGLE_SITE_VERIFICATION }}
+          PUBLIC_BING_SITE_VERIFICATION: ${{ vars.PUBLIC_BING_SITE_VERIFICATION }}
 
       - name: Validate generated pages
         run: npm run test:site
